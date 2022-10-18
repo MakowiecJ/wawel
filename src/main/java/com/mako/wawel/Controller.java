@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class Controller {
     @GetMapping("")
     public String getContent() {
-        return "Testowe RestApi kina wawel";
+        return "TROLOLOLOLOLOLOLOLOLOLO";
     }
 }
