@@ -19,7 +19,6 @@ public class MoviesController {
     private MoviesService service;
 
     @GetMapping
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public List<MovieEntity> getMovies() {
         return service.getMovies();
     }
