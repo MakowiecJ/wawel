@@ -1,6 +1,6 @@
-package com.mako.wawel.persistence;
+package com.mako.wawel.persistence.movies;
 
-import com.mako.wawel.entity.MovieEntity;
+import com.mako.wawel.entity.movies.MovieEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

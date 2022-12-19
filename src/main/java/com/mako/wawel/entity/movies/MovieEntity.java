@@ -1,4 +1,4 @@
-package com.mako.wawel.entity;
+package com.mako.wawel.entity.movies;
 
 import lombok.*;
 
@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "MOVIES")
+@Table(name = "movies")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

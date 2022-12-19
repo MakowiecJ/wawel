@@ -1,4 +1,4 @@
-package com.mako.wawel.request;
+package com.mako.wawel.request.movies;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

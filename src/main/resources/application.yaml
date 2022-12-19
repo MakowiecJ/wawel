@@ -1,13 +1,15 @@
 server:
-  port: 8086
+  port: 8080
 spring:
   h2:
     console:
       enabled: true
   datasource:
-    url: jdbc:h2:mem:movies;
+    url: jdbc:h2:mem:wawel;
     username: sa
     password:
     driverClassName: org.h2.Driver
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
