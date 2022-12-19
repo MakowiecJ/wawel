@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collections;
 
 @RestController
-@RequestMapping("/wawel/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
     @Autowired

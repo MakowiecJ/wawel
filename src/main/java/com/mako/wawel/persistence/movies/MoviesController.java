@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/wawel/movies")
+@RequestMapping("/movies")
 public class MoviesController {
 
     @Autowired
