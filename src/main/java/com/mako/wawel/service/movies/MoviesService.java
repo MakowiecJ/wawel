@@ -22,6 +22,10 @@ public class MoviesService {
         return repository.findAll();
     }
 
+    public MovieEntity getMovie(final String movieId) {
+        return repository.findById(movieId).orElseThrow();
+    }
+
     public MovieEntity addMovie(final AddMovieRequest request) {
         return repository.save(MovieEntity.builder()
                 .id(UUID.randomUUID().toString())

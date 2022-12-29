@@ -23,6 +23,11 @@ public class MoviesController {
         return service.getMovies();
     }
 
+    @GetMapping("/{movieId}")
+    public MovieEntity getMovie(@PathVariable final String movieId) {
+        return service.getMovie(movieId);
+    }
+
     @PostMapping
     @Secured("ROLE_ADMIN")
     public MovieEntity addMovie(@RequestBody final AddMovieRequest request) {
