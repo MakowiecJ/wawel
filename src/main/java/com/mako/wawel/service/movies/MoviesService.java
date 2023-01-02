@@ -17,8 +17,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.mako.wawel.service.movies.mapper.MoviesMapper.toMovieResponse;
 
 @Service
 @AllArgsConstructor
@@ -39,8 +42,8 @@ public class MoviesService {
                 .toList();
     }
 
-    public Movie getMovie(final Long movieId) {
-        return moviesRepository.findById(movieId).orElseThrow();
+    public GeneralMovieResponse getMovie(final Long movieId) {
+        return toMovieResponse(moviesRepository.findById(movieId).orElseThrow());
     }
 
     public Movie addMovie(final AddMovieRequest request) {
@@ -50,6 +53,7 @@ public class MoviesService {
                 .minAge(request.getMinAge())
                 .duration(request.getDuration())
                 .description(request.getDescription())
+                .reviews(new ArrayList<>())
                 .build());
     }
 
