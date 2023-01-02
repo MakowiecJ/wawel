@@ -1,28 +1,32 @@
 package com.mako.wawel.entity.movies;
 
+import com.mako.wawel.entity.auth.User;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "movies")
+@Table(name = "reviews")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Getter
+@Setter
 public class Review {
 
     @Id
-    @Column(name = "ID")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "RATING")
-    private Integer rating;
+    private int rating;
 
-    @Column(name = "REVIEW")
-    private String review;
+    private String reviewText;
+
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
+    private Movie movie;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

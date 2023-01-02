@@ -25,10 +25,10 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserRepository userRepository;
+    private UsersRepository usersRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private RolesRepository rolesRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -46,12 +46,12 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto){
 
         // add check for username exists in a DB
-        if(userRepository.existsByUsername(signUpDto.getUsername())){
+        if(usersRepository.existsByUsername(signUpDto.getUsername())){
             return new ResponseEntity<>("Username is already taken!", HttpStatus.BAD_REQUEST);
         }
 
         // add check for email exists in DB
-        if(userRepository.existsByEmail(signUpDto.getEmail())){
+        if(usersRepository.existsByEmail(signUpDto.getEmail())){
             return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
         }
 
@@ -61,10 +61,10 @@ public class AuthController {
         user.setEmail(signUpDto.getEmail());
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
 
-        Role roles = roleRepository.findByName("ROLE_USER").get();
+        Role roles = rolesRepository.findByName("ROLE_USER").get();
         user.setRoles(Collections.singleton(roles));
 
-        userRepository.save(user);
+        usersRepository.save(user);
 
         return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
 

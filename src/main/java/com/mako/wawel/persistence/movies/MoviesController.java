@@ -1,11 +1,15 @@
 package com.mako.wawel.persistence.movies;
 
-import com.mako.wawel.entity.movies.MovieEntity;
+import com.mako.wawel.entity.movies.Movie;
 import com.mako.wawel.request.movies.AddMovieRequest;
+import com.mako.wawel.request.movies.AddReviewRequest;
+import com.mako.wawel.request.movies.GetRepertoireRequest;
+import com.mako.wawel.response.movies.GeneralMovieResponse;
+import com.mako.wawel.response.movies.GetRepertoireResponse;
+import com.mako.wawel.response.movies.MovieReviewResponse;
 import com.mako.wawel.service.movies.MoviesService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,24 +24,40 @@ public class MoviesController {
     private MoviesService service;
 
     @GetMapping
-    public List<MovieEntity> getMovies() {
+    public List<GeneralMovieResponse> getMovies() {
         return service.getMovies();
     }
 
+    @GetMapping("/reviews/{movieId}")
+    public List<MovieReviewResponse> getMovieReviews(@PathVariable final Long movieId) {
+        return service.getMovieReviews(movieId);
+    }
+
     @GetMapping("/{movieId}")
-    public MovieEntity getMovie(@PathVariable final String movieId) {
+    public Movie getMovie(@PathVariable final Long movieId) {
         return service.getMovie(movieId);
     }
 
     @PostMapping
-    @Secured("ROLE_ADMIN")
-    public MovieEntity addMovie(@RequestBody final AddMovieRequest request) {
+//    @Secured("role_admin")
+    public Movie addMovie(@RequestBody final AddMovieRequest request) {
         return service.addMovie(request);
     }
 
     @DeleteMapping
-    @Secured("ROLE_ADMIN")
-    public void deleteMovie(@RequestParam final String movieId) {
+//    @Secured("role_admin")
+    public void deleteMovie(@RequestParam final Long movieId) {
         service.deleteMovie(movieId);
+    }
+
+    @PostMapping("/reviews")
+//    @Secured("role_user")
+    public Void addReview(@RequestBody final AddReviewRequest request) {
+        return service.addReview(request);
+    }
+
+    @GetMapping("/repertoire")
+    public GetRepertoireResponse getRepertoire(GetRepertoireRequest request) {
+        return service.getRepertoire(request);
     }
 }
