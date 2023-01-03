@@ -10,5 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class BuyTicketsRequest {
+    private Long userId;
+    private Long screeningId;
     List<BuyTicketInfo> tickets;
 }

@@ -207,7 +207,7 @@ public class MoviesService {
     public Void buyTickets(BuyTicketsRequest request) {
         List<Ticket> tickets = new ArrayList<>();
         for (BuyTicketInfo ticket : request.getTickets()) {
-            Screening screening = screeningsRepository.findById(ticket.getScreeningId()).orElseThrow();
+            Screening screening = screeningsRepository.findById(request.getScreeningId()).orElseThrow();
             String[][] seats = screening.getSeats();
             if (seats[ticket.getSeatRow()][ticket.getSeatNumber()].equals(ZAJETE.name())
                     || seats[ticket.getSeatRow()][ticket.getSeatNumber()].equals(NIE_ISTNIEJE.name())) {
@@ -218,7 +218,7 @@ public class MoviesService {
                 throw new RuntimeException("Seans już się odbył!");
             }
 
-            User user = usersRepository.findById(ticket.getUserId()).orElseThrow();
+            User user = usersRepository.findById(request.getUserId()).orElseThrow();
 
             Ticket ticketEntity = Ticket.builder()
                     .user(user)
