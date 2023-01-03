@@ -2,6 +2,7 @@ package com.mako.wawel.persistence.movies;
 
 import com.mako.wawel.common.City;
 import com.mako.wawel.entity.movies.Movie;
+import com.mako.wawel.request.BuyTicketsRequest;
 import com.mako.wawel.request.GetUserInfoResponse;
 import com.mako.wawel.request.movies.*;
 import com.mako.wawel.response.movies.GeneralMovieResponse;
@@ -85,5 +86,10 @@ public class CinemaController {
     @GetMapping("/users/{userId}")
     public GetUserInfoResponse getUserInfo(@PathVariable final Long userId) {
         return service.getUserInfo(userId);
+    }
+
+    @PostMapping("/tickets/buy")
+    public Void buyTickets(@RequestBody final BuyTicketsRequest request) {
+        return service.buyTickets(request);
     }
 }

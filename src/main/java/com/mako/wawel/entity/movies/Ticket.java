@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Getter
 public class Ticket {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -32,8 +32,8 @@ public class Ticket {
     @Column(name = "seat_number")
     private int seatNumber;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "ticket_type")
+    @Enumerated(EnumType.STRING)
     private TicketType ticketType;
 
 

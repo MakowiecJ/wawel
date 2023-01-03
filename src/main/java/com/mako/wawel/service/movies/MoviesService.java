@@ -2,8 +2,11 @@ package com.mako.wawel.service.movies;
 
 import com.mako.wawel.entity.auth.User;
 import com.mako.wawel.entity.movies.*;
+import com.mako.wawel.persistence.TicketsRepository;
 import com.mako.wawel.persistence.auth.UsersRepository;
 import com.mako.wawel.persistence.movies.*;
+import com.mako.wawel.request.BuyTicketInfo;
+import com.mako.wawel.request.BuyTicketsRequest;
 import com.mako.wawel.request.GetUserInfoResponse;
 import com.mako.wawel.request.movies.*;
 import com.mako.wawel.response.movies.*;
@@ -12,8 +15,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 
+import static com.mako.wawel.entity.movies.Availability.NIE_ISTNIEJE;
+import static com.mako.wawel.entity.movies.Availability.ZAJETE;
 import static com.mako.wawel.service.movies.mapper.MoviesMapper.toMovieResponse;
 
 @Service
@@ -40,6 +46,9 @@ public class MoviesService {
 
     @Autowired
     private ScreensRepository screensRepository;
+
+    @Autowired
+    private TicketsRepository ticketsRepository;
 
     public List<GeneralMovieResponse> getMovies() {
         return moviesRepository.findAll().stream()
@@ -193,5 +202,36 @@ public class MoviesService {
                 .watchedMovies(user.getWatchedMovies())
                 .build();
 
+    }
+
+    public Void buyTickets(BuyTicketsRequest request) {
+        List<Ticket> tickets = new ArrayList<>();
+        for (BuyTicketInfo ticket : request.getTickets()) {
+            Screening screening = screeningsRepository.findById(ticket.getScreeningId()).orElseThrow();
+            String[][] seats = screening.getSeats();
+            if (seats[ticket.getSeatRow()][ticket.getSeatNumber()].equals(ZAJETE.name())
+                    || seats[ticket.getSeatRow()][ticket.getSeatNumber()].equals(NIE_ISTNIEJE.name())) {
+                throw new RuntimeException("Miejsce: rząd " +  ticket.getSeatRow() + ", nr " + ticket.getSeatNumber() + " zajęte bądź nie istnieje!");
+            }
+
+            if (screening.getDate().isBefore(LocalDate.now())) {
+                throw new RuntimeException("Seans już się odbył!");
+            }
+
+            User user = usersRepository.findById(ticket.getUserId()).orElseThrow();
+
+            Ticket ticketEntity = Ticket.builder()
+                    .user(user)
+                    .screening(screening)
+                    .seatRow(ticket.getSeatRow())
+                    .seatNumber(ticket.getSeatNumber())
+                    .ticketType(ticket.getTicketType())
+                    .build();
+
+            tickets.add(ticketEntity);
+        }
+
+        ticketsRepository.saveAll(tickets);
+        return null;
     }
 }
