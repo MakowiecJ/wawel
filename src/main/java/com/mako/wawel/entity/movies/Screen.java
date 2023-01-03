@@ -1,5 +1,6 @@
 package com.mako.wawel.entity.movies;
 
+import com.mako.wawel.common.ScreenName;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,7 +11,6 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Getter
 @Setter
 public class Screen {
@@ -18,7 +18,9 @@ public class Screen {
     @GeneratedValue
     private Long id;
 
-    private String name;
+    @Column(name = "screen_name")
+    @Enumerated(EnumType.STRING)
+    private ScreenName screenName;
 
     private int capacity;
 

@@ -1,10 +1,6 @@
 package com.mako.wawel.response.movies;
 
-import com.mako.wawel.entity.movies.Showing;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -12,6 +8,7 @@ import java.util.List;
 @Getter
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
 public class GetRepertoireResponse {
-    private List<Showing> showings;
+    private List<RepertoireItem> items;
 }

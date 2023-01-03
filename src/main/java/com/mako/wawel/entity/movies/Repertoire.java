@@ -3,7 +3,7 @@ package com.mako.wawel.entity.movies;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -11,7 +11,6 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Getter
 public class Repertoire {
 
@@ -24,12 +23,13 @@ public class Repertoire {
     private Cinema cinema;
 
     @Column(name = "start_date")
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @Column(name = "end_date")
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     @OneToMany
+    @JoinColumn(name = "repertoire_id")
     private List<Screening> screenings;
 
 }

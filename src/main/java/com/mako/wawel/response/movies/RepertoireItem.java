@@ -1,11 +1,15 @@
 package com.mako.wawel.response.movies;
 
-import com.mako.wawel.entity.movies.Movie;
-import com.mako.wawel.entity.movies.Screening;
+import lombok.*;
 
 import java.util.List;
 
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class RepertoireItem {
-    Movie movie;
-    List<Screening> screenings;
+    GeneralMovieResponse movie;
+    List<ScreeningItem> screenings;
 }

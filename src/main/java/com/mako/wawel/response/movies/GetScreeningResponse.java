@@ -11,8 +11,11 @@ import java.time.LocalTime;
 @Getter
 @ToString
 @AllArgsConstructor
-public class ScreeningItem {
-    private Long screeningId;
+public class GetScreeningResponse {
+    private Long screenId;
+    private Long movieId;
+    private Long repertoireId;
     private LocalTime startTime;
     private LocalTime endTime;
+    private String[][] seats;
 }

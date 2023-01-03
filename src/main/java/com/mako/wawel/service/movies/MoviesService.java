@@ -1,25 +1,17 @@
 package com.mako.wawel.service.movies;
 
 import com.mako.wawel.entity.auth.User;
-import com.mako.wawel.entity.movies.Movie;
-import com.mako.wawel.entity.movies.Review;
+import com.mako.wawel.entity.movies.*;
 import com.mako.wawel.persistence.auth.UsersRepository;
-import com.mako.wawel.persistence.movies.MoviesRepository;
-import com.mako.wawel.persistence.movies.ReviewsRepository;
-import com.mako.wawel.request.movies.AddMovieRequest;
-import com.mako.wawel.request.movies.AddReviewRequest;
-import com.mako.wawel.request.movies.GetRepertoireRequest;
-import com.mako.wawel.response.movies.GeneralMovieResponse;
-import com.mako.wawel.response.movies.GetRepertoireResponse;
-import com.mako.wawel.response.movies.MovieReviewResponse;
+import com.mako.wawel.persistence.movies.*;
+import com.mako.wawel.request.movies.*;
+import com.mako.wawel.response.movies.*;
 import com.mako.wawel.service.movies.mapper.MoviesMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.mako.wawel.service.movies.mapper.MoviesMapper.toMovieResponse;
 
@@ -35,6 +27,18 @@ public class MoviesService {
 
     @Autowired
     private ReviewsRepository reviewsRepository;
+
+    @Autowired
+    private ScreeningsRepository screeningsRepository;
+
+    @Autowired
+    private RepertoiresRepository repertoiresRepository;
+
+    @Autowired
+    private CinemaRepository cinemasRepository;
+
+    @Autowired
+    private ScreensRepository screensRepository;
 
     public List<GeneralMovieResponse> getMovies() {
         return moviesRepository.findAll().stream()
@@ -85,32 +89,90 @@ public class MoviesService {
                     .user(user)
                     .build();
             reviewsRepository.save(newReview);
-
         }
-//        Review review = Review.builder()
-//                .rating(request.getRating())
-//                .reviewText(request.getReviewText())
-//                .movie(movie)
-//                .user(user)
-//                .build();
-//        movie.getReviews().add(review);
-//        user.getReviews().add(review);
-//
-//        moviesRepository.save(movie);
-//        usersRepository.save(user);
-//        reviewsRepository.save(review);
-
-//        reviewsRepository.save(Review.builder()
-//                .rating(request.getRating())
-//                .reviewText(request.getReviewText())
-//                .movie(movie)
-//                .user(user)
-//                .build());
         return null;
     }
 
     public GetRepertoireResponse getRepertoire(GetRepertoireRequest request) {
+        Cinema cinema = cinemasRepository.findByCity(request.getCity());
+        Repertoire repertoire = repertoiresRepository.findByCinemaAndDate(cinema, request.getDate());
 
+        List<RepertoireItem> items = new ArrayList<>();
+
+        List<Long> movieIds = new ArrayList<>();
+        Map<Long, GeneralMovieResponse> idToMovie = new HashMap<>();
+        Map<Long, List<ScreeningItem>> screeningToMovie = new HashMap<>();
+
+        for (Screening screening : repertoire.getScreenings()) {
+
+            if (!movieIds.contains(screening.getMovie().getId())) {
+                movieIds.add(screening.getMovie().getId());
+                idToMovie.put(screening.getMovie().getId(), MoviesMapper.toMovieResponse(screening.getMovie()));
+
+                screeningToMovie.put(screening.getMovie().getId(), List.of(ScreeningItem.builder()
+                        .screeningId(screening.getId())
+                        .startTime(screening.getStartTime())
+                        .endTime(screening.getEndTime())
+                        .build()));
+            } else {
+                List<ScreeningItem> screeningItems = new ArrayList<>(screeningToMovie.get(screening.getMovie().getId()));
+
+                screeningItems.add(ScreeningItem.builder()
+                        .screeningId(screening.getId())
+                        .startTime(screening.getStartTime())
+                        .endTime(screening.getEndTime())
+                        .build());
+                screeningToMovie.replace(screening.getMovie().getId(), screeningItems);
+            }
+
+        }
+        for (Map.Entry<Long, List<ScreeningItem>> entry : screeningToMovie.entrySet()) {
+            items.add(new RepertoireItem(idToMovie.get(entry.getKey()), entry.getValue()));
+        }
+
+        return new GetRepertoireResponse(items);
+    }
+
+
+
+    public GetScreeningResponse getScreening(final Long screeningId) {
+        Screening screening = screeningsRepository.findById(screeningId).orElseThrow();
+        return GetScreeningResponse.builder()
+                .screenId(screeningId)
+                .movieId(screening.getMovie().getId())
+                .repertoireId(screening.getRepertoire().getId())
+                .startTime(screening.getStartTime())
+                .endTime(screening.getEndTime())
+                .seats(screening.getSeats())
+                .build();
+    }
+
+    public Void addScreening(AddScreeningRequest request) {
+        Cinema cinema = cinemasRepository.findByCity(request.getCity());
+        Screen screen = screensRepository.findByCinemaIdAndScreenName(cinema.getId(), request.getScreenName());
+        Movie movie = moviesRepository.findById(request.getMovieId()).orElseThrow();
+        Repertoire repertoire = repertoiresRepository.findByCinemaAndDate(cinema, request.getDate());
+        Screening screening = Screening.builder()
+                .screen(screen)
+                .movie(movie)
+                .repertoire(repertoire)
+                .startTime(request.getStartTime())
+                .endTime(request.getEndTime())
+                .seats(Screening.newSeats())
+                .build();
+
+        screeningsRepository.save(screening);
+        return null;
+    }
+
+    public Void addRepertoire(AddRepertoireRequest request) {
+        Cinema cinema = cinemasRepository.findByCity(request.getCity());
+
+        repertoiresRepository.save(Repertoire.builder()
+                .cinema(cinema)
+                .startDate(request.getStartDate())
+                .endDate(request.getEndDate())
+                .build());
         return null;
     }
 }

@@ -1,11 +1,10 @@
 package com.mako.wawel.persistence.movies;
 
 import com.mako.wawel.entity.movies.Movie;
-import com.mako.wawel.request.movies.AddMovieRequest;
-import com.mako.wawel.request.movies.AddReviewRequest;
-import com.mako.wawel.request.movies.GetRepertoireRequest;
+import com.mako.wawel.request.movies.*;
 import com.mako.wawel.response.movies.GeneralMovieResponse;
 import com.mako.wawel.response.movies.GetRepertoireResponse;
+import com.mako.wawel.response.movies.GetScreeningResponse;
 import com.mako.wawel.response.movies.MovieReviewResponse;
 import com.mako.wawel.service.movies.MoviesService;
 import lombok.AllArgsConstructor;
@@ -44,9 +43,9 @@ public class MoviesController {
         return service.addMovie(request);
     }
 
-    @DeleteMapping
+    @DeleteMapping("{movieId}")
 //    @Secured("role_admin")
-    public void deleteMovie(@RequestParam final Long movieId) {
+    public void deleteMovie(@PathVariable final Long movieId) {
         service.deleteMovie(movieId);
     }
 
@@ -57,7 +56,22 @@ public class MoviesController {
     }
 
     @GetMapping("/repertoire")
-    public GetRepertoireResponse getRepertoire(GetRepertoireRequest request) {
+    public GetRepertoireResponse getRepertoire(@RequestBody final GetRepertoireRequest request) {
         return service.getRepertoire(request);
+    }
+
+    @PostMapping("/repertoire")
+    public Void addRepertoire(@RequestBody final AddRepertoireRequest request) {
+        return service.addRepertoire(request);
+    }
+
+    @GetMapping("/screening/{screeningId}")
+    public GetScreeningResponse getScreening(@PathVariable final Long screeningId) {
+        return service.getScreening(screeningId);
+    }
+
+    @PostMapping("/screening")
+    public Void addScreening(@RequestBody final AddScreeningRequest request) {
+        return service.addScreening(request);
     }
 }
