@@ -1,10 +1,12 @@
 package com.mako.wawel.entity.cinema;
 
 import com.mako.wawel.common.City;
+import com.mako.wawel.entity.movies.Repertoire;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "cinema")
@@ -25,4 +27,7 @@ public class Cinema {
 
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    @OneToMany
+    private List<Repertoire> repertoires;
 }

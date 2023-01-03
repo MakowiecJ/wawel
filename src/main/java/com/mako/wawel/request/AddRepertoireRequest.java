@@ -12,6 +12,5 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class AddRepertoireRequest {
     private City city;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDate date;
 }

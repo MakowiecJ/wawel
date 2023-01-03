@@ -40,7 +40,7 @@ public class MoviesService {
     private ScreeningsRepository screeningsRepository;
 
     @Autowired
-    private RepertoiresRepository repertoiresRepository;
+    private RepertoireRepository repertoireRepository;
 
     @Autowired
     private CinemaRepository cinemasRepository;
@@ -106,7 +106,7 @@ public class MoviesService {
 
     public GetRepertoireResponse getRepertoire(GetRepertoireRequest request) {
         Cinema cinema = cinemasRepository.findByCity(request.getCity());
-        Repertoire repertoire = repertoiresRepository.findByCinemaAndDate(cinema, request.getDate());
+        Repertoire repertoire = repertoireRepository.findByCinemaAndDate(cinema, request.getDate());
 
         List<RepertoireItem> items = new ArrayList<>();
 
@@ -115,7 +115,7 @@ public class MoviesService {
         Map<Long, List<ScreeningItem>> screeningToMovie = new HashMap<>();
 
         for (Screening screening : repertoire.getScreenings()) {
-            if (screening.getDate().equals(request.getDate())) {
+            if (screening.getRepertoire().getDate().equals(request.getDate())) {
                 if (!movieIds.contains(screening.getMovie().getId())) {
                     movieIds.add(screening.getMovie().getId());
                     idToMovie.put(screening.getMovie().getId(), MoviesMapper.toMovieResponse(screening.getMovie()));
@@ -154,7 +154,7 @@ public class MoviesService {
                 .screenId(screeningId)
                 .movieId(screening.getMovie().getId())
                 .repertoireId(screening.getRepertoire().getId())
-                .date(screening.getDate())
+                .date(screening.getRepertoire().getDate())
                 .startTime(screening.getStartTime())
                 .movieType(screening.getMovieType())
                 .movieSoundType(screening.getMovieSoundType())
@@ -166,12 +166,11 @@ public class MoviesService {
         Cinema cinema = cinemasRepository.findByCity(request.getCity());
         Screen screen = screensRepository.findByCinemaIdAndScreenName(cinema.getId(), request.getScreenName());
         Movie movie = moviesRepository.findById(request.getMovieId()).orElseThrow();
-        Repertoire repertoire = repertoiresRepository.findByCinemaAndDate(cinema, request.getDate());
+        Repertoire repertoire = repertoireRepository.findByCinemaAndDate(cinema, request.getDate());
         Screening screening = Screening.builder()
                 .screen(screen)
                 .movie(movie)
                 .repertoire(repertoire)
-                .date(request.getDate())
                 .startTime(request.getStartTime())
                 .movieType(request.getMovieType())
                 .movieSoundType(request.getMovieSoundType())
@@ -185,10 +184,9 @@ public class MoviesService {
     public Void addRepertoire(AddRepertoireRequest request) {
         Cinema cinema = cinemasRepository.findByCity(request.getCity());
 
-        repertoiresRepository.save(Repertoire.builder()
+        repertoireRepository.save(Repertoire.builder()
                 .cinema(cinema)
-                .startDate(request.getStartDate())
-                .endDate(request.getEndDate())
+                .date(request.getDate())
                 .build());
         return null;
     }
@@ -209,7 +207,7 @@ public class MoviesService {
         for (BuyTicketInfo ticket : request.getTickets()) {
             Screening screening = screeningsRepository.findById(request.getScreeningId()).orElseThrow();
             String[][] seats = screening.getSeats();
-            if (screening.getDate().isBefore(LocalDate.now())) {
+            if (screening.getRepertoire().getDate().isBefore(LocalDate.now())) {
                 return new ResponseEntity<>("Seans już się odbył!", HttpStatus.BAD_REQUEST);
             }
 

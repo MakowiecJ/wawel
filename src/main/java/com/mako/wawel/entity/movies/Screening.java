@@ -38,8 +38,6 @@ public class Screening {
     @Convert(converter = SeatsConverter.class)
     private String[][] seats = newSeats();
 
-    private LocalDate date;
-
     @Column(name = "start_time")
     private LocalTime startTime;
 

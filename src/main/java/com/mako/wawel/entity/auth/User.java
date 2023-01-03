@@ -45,7 +45,7 @@ public class User {
     public Set<Long> getWatchedMovies() {
         Set<Long> movieIds = new HashSet<>();
         for (Ticket ticket : tickets) {
-            if (ticket.getScreening().getDate().isBefore(LocalDate.now())) {
+            if (ticket.getScreening().getRepertoire().getDate().isBefore(LocalDate.now())) {
                 movieIds.add(ticket.getScreening().getMovie().getId());
             }
         }

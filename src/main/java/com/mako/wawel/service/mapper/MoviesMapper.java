@@ -38,7 +38,7 @@ public class MoviesMapper {
         return TicketResponse.builder()
                 .id(ticket.getId())
                 .city(ticket.getScreening().getScreen().getCinema().getCity())
-                .date(ticket.getScreening().getDate())
+                .date(ticket.getScreening().getRepertoire().getDate())
                 .startTime(ticket.getScreening().getStartTime())
                 .movieTitle(ticket.getScreening().getMovie().getTitle())
                 .screenName(ticket.getScreening().getScreen().getScreenName())
