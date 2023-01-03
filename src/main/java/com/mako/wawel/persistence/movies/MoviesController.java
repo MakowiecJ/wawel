@@ -10,6 +10,7 @@ import com.mako.wawel.response.movies.MovieReviewResponse;
 import com.mako.wawel.service.movies.MoviesService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -59,7 +60,7 @@ public class MoviesController {
     }
 
     @GetMapping("/repertoire")
-    public GetRepertoireResponse getRepertoire(@RequestParam final City city, @RequestParam final LocalDate date) {
+    public GetRepertoireResponse getRepertoire(@RequestParam final City city, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final LocalDate date) {
         return service.getRepertoire(new GetRepertoireRequest(city, date));
     }
 
