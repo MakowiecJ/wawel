@@ -60,7 +60,9 @@ public class MoviesController {
     }
 
     @GetMapping("/repertoire")
-    public GetRepertoireResponse getRepertoire(@RequestParam final City city, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final LocalDate date) {
+    public GetRepertoireResponse getRepertoire(
+            @RequestParam final City city,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final LocalDate date) {
         return service.getRepertoire(new GetRepertoireRequest(city, date));
     }
 

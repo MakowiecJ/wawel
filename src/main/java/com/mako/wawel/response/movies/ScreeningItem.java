@@ -1,5 +1,7 @@
 package com.mako.wawel.response.movies;
 
+import com.mako.wawel.common.MovieSoundType;
+import com.mako.wawel.common.MovieType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,5 +16,6 @@ import java.time.LocalTime;
 public class ScreeningItem {
     private Long screeningId;
     private LocalTime startTime;
-    private LocalTime endTime;
+    private MovieType movieType;
+    private MovieSoundType movieSoundType;
 }

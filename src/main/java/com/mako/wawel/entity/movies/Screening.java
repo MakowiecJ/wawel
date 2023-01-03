@@ -1,9 +1,12 @@
 package com.mako.wawel.entity.movies;
 
+import com.mako.wawel.common.MovieSoundType;
+import com.mako.wawel.common.MovieType;
 import com.mako.wawel.entity.converter.SeatsConverter;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
@@ -34,8 +37,21 @@ public class Screening {
 //    private List<Seat> seats = newSeats();
     private String[][] seats = newSeats();
 
+    private LocalDate date;
+
+    @Column(name = "start_time")
     private LocalTime startTime;
+
+    @Column(name = "end_time")
     private LocalTime endTime;
+
+    @Column(name = "movie_type")
+    @Enumerated(EnumType.STRING)
+    private MovieType movieType;
+
+    @Column(name = "movie_sound_type")
+    @Enumerated(EnumType.STRING)
+    private MovieSoundType movieSoundType;
 
     public static String[][] newSeats() {
 //        List<Seat> seats = new ArrayList<>();

@@ -104,25 +104,28 @@ public class MoviesService {
         Map<Long, List<ScreeningItem>> screeningToMovie = new HashMap<>();
 
         for (Screening screening : repertoire.getScreenings()) {
+            if (screening.getDate().equals(request.getDate())) {
+                if (!movieIds.contains(screening.getMovie().getId())) {
+                    movieIds.add(screening.getMovie().getId());
+                    idToMovie.put(screening.getMovie().getId(), MoviesMapper.toMovieResponse(screening.getMovie()));
 
-            if (!movieIds.contains(screening.getMovie().getId())) {
-                movieIds.add(screening.getMovie().getId());
-                idToMovie.put(screening.getMovie().getId(), MoviesMapper.toMovieResponse(screening.getMovie()));
+                    screeningToMovie.put(screening.getMovie().getId(), List.of(ScreeningItem.builder()
+                            .screeningId(screening.getId())
+                            .startTime(screening.getStartTime())
+                            .movieType(screening.getMovieType())
+                            .movieSoundType(screening.getMovieSoundType())
+                            .build()));
+                } else {
+                    List<ScreeningItem> screeningItems = new ArrayList<>(screeningToMovie.get(screening.getMovie().getId()));
 
-                screeningToMovie.put(screening.getMovie().getId(), List.of(ScreeningItem.builder()
-                        .screeningId(screening.getId())
-                        .startTime(screening.getStartTime())
-                        .endTime(screening.getEndTime())
-                        .build()));
-            } else {
-                List<ScreeningItem> screeningItems = new ArrayList<>(screeningToMovie.get(screening.getMovie().getId()));
-
-                screeningItems.add(ScreeningItem.builder()
-                        .screeningId(screening.getId())
-                        .startTime(screening.getStartTime())
-                        .endTime(screening.getEndTime())
-                        .build());
-                screeningToMovie.replace(screening.getMovie().getId(), screeningItems);
+                    screeningItems.add(ScreeningItem.builder()
+                            .screeningId(screening.getId())
+                            .startTime(screening.getStartTime())
+                            .movieType(screening.getMovieType())
+                            .movieSoundType(screening.getMovieSoundType())
+                            .build());
+                    screeningToMovie.replace(screening.getMovie().getId(), screeningItems);
+                }
             }
 
         }
@@ -134,15 +137,17 @@ public class MoviesService {
     }
 
 
-
     public GetScreeningResponse getScreening(final Long screeningId) {
         Screening screening = screeningsRepository.findById(screeningId).orElseThrow();
         return GetScreeningResponse.builder()
                 .screenId(screeningId)
                 .movieId(screening.getMovie().getId())
                 .repertoireId(screening.getRepertoire().getId())
+                .date(screening.getDate())
                 .startTime(screening.getStartTime())
                 .endTime(screening.getEndTime())
+                .movieType(screening.getMovieType())
+                .movieSoundType(screening.getMovieSoundType())
                 .seats(screening.getSeats())
                 .build();
     }
@@ -156,8 +161,11 @@ public class MoviesService {
                 .screen(screen)
                 .movie(movie)
                 .repertoire(repertoire)
+                .date(request.getDate())
                 .startTime(request.getStartTime())
                 .endTime(request.getEndTime())
+                .movieType(request.getMovieType())
+                .movieSoundType(request.getMovieSoundType())
                 .seats(Screening.newSeats())
                 .build();
 

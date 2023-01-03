@@ -1,6 +1,8 @@
 package com.mako.wawel.request.movies;
 
 import com.mako.wawel.common.City;
+import com.mako.wawel.common.MovieSoundType;
+import com.mako.wawel.common.MovieType;
 import com.mako.wawel.common.ScreenName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,4 +21,6 @@ public class AddScreeningRequest {
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
+    private MovieType movieType;
+    private MovieSoundType movieSoundType;
 }
