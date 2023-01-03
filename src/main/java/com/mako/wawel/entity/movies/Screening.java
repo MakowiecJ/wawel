@@ -87,4 +87,8 @@ public class Screening {
 //        }
 //        return array;
 //    }
+
+    public void changeSeatStatus(final int row, final int col) {
+        this.seats[row][col] = Availability.ZAJETE.name();
+    }
 }

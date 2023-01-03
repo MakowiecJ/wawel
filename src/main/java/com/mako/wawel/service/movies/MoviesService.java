@@ -209,14 +209,17 @@ public class MoviesService {
         for (BuyTicketInfo ticket : request.getTickets()) {
             Screening screening = screeningsRepository.findById(request.getScreeningId()).orElseThrow();
             String[][] seats = screening.getSeats();
+            if (screening.getDate().isBefore(LocalDate.now())) {
+                throw new RuntimeException("Seans już się odbył!");
+            }
+
             if (seats[ticket.getSeatRow()][ticket.getSeatNumber()].equals(ZAJETE.name())
                     || seats[ticket.getSeatRow()][ticket.getSeatNumber()].equals(NIE_ISTNIEJE.name())) {
                 throw new RuntimeException("Miejsce: rząd " +  ticket.getSeatRow() + ", nr " + ticket.getSeatNumber() + " zajęte bądź nie istnieje!");
             }
 
-            if (screening.getDate().isBefore(LocalDate.now())) {
-                throw new RuntimeException("Seans już się odbył!");
-            }
+
+            screening.changeSeatStatus(ticket.getSeatRow(), ticket.getSeatNumber());
 
             User user = usersRepository.findById(request.getUserId()).orElseThrow();
 
@@ -228,10 +231,8 @@ public class MoviesService {
                     .ticketType(ticket.getTicketType())
                     .build();
 
-            tickets.add(ticketEntity);
+            ticketsRepository.save(ticketEntity);
         }
-
-        ticketsRepository.saveAll(tickets);
         return null;
     }
 }
