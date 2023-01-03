@@ -1,6 +1,7 @@
 package com.mako.wawel.entity.auth;
 
 import com.mako.wawel.entity.movies.Review;
+import com.mako.wawel.entity.movies.Ticket;
 import lombok.Data;
 import lombok.Setter;
 
@@ -26,6 +27,9 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Review> reviews;
+
+    @OneToMany(mappedBy = "user")
+    private List<Ticket> tickets;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",

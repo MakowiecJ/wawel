@@ -45,9 +45,9 @@ DROP TABLE IF EXISTS repertoire;
 CREATE TABLE repertoire
 (
     id         BIGINT PRIMARY KEY AUTO_INCREMENT,
-    cinema_id  BIGINT   NOT NULL,
-    start_date DATE NOT NULL,
-    end_date   DATE NOT NULL,
+    cinema_id  BIGINT NOT NULL,
+    start_date DATE   NOT NULL,
+    end_date   DATE   NOT NULL,
     FOREIGN KEY (cinema_id) REFERENCES cinema (id)
 );
 INSERT INTO repertoire (cinema_id, start_date, end_date)
@@ -121,10 +121,10 @@ VALUES (1, 2, 5, 'Great movie!'),
 DROP TABLE IF EXISTS screen;
 CREATE TABLE screen
 (
-    id        BIGINT PRIMARY KEY AUTO_INCREMENT,
-    cinema_id BIGINT       NOT NULL,
-    screen_name      VARCHAR(255) NOT NULL,
-    capacity  INT          NOT NULL,
+    id          BIGINT PRIMARY KEY AUTO_INCREMENT,
+    cinema_id   BIGINT       NOT NULL,
+    screen_name VARCHAR(255) NOT NULL,
+    capacity    INT          NOT NULL,
     FOREIGN KEY (cinema_id) REFERENCES cinema (id)
 );
 INSERT INTO screen (cinema_id, screen_name, capacity)
@@ -176,14 +176,15 @@ DROP TABLE IF EXISTS ticket;
 CREATE TABLE ticket
 (
     id           BIGINT PRIMARY KEY AUTO_INCREMENT,
-    screening_id BIGINT NOT NULL,
-    seat_number  INT    NOT NULL,
-    price        DOUBLE NOT NULL,
+    screening_id BIGINT      NOT NULL,
+    seat_row     INT         NOT NULL,
+    seat_number  INT         NOT NULL,
+    ticket_type  VARCHAR(32) NOT NULL,
     FOREIGN KEY (screening_id) REFERENCES screenings (id)
 );
 
-INSERT INTO ticket (screening_id, seat_number, price)
-VALUES (1, 1, 10.00),
-       (1, 2, 15.00),
-       (1, 3, 20.00);
+INSERT INTO ticket (screening_id, seat_row, seat_number, ticket_type)
+VALUES (1, 0, 8, 'ULGOWY'),
+       (1, 0, 9, 'NORMALNY'),
+        (1, 0, 10, 'SENIOR');
 

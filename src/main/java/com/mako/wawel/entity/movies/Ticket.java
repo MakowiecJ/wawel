@@ -1,5 +1,6 @@
 package com.mako.wawel.entity.movies;
 
+import com.mako.wawel.common.TicketType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,6 +21,15 @@ public class Ticket {
     @JoinColumn(name = "screening_id")
     private Screening screening;
 
+    @Column(name = "seat_row")
+    private int seatRow;
+
+    @Column(name = "seat_number")
     private int seatNumber;
-    private double price;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ticket_type")
+    private TicketType ticketType;
+
+
 }
