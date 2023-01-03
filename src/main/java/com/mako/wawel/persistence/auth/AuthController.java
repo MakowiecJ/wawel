@@ -34,6 +34,7 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/signin")
+    @CrossOrigin
     public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginDto.getUsernameOrEmail(), loginDto.getPassword()));
@@ -43,6 +44,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
+    @CrossOrigin
     public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto){
 
         // add check for username exists in a DB
