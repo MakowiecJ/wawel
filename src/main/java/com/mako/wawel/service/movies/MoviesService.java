@@ -4,6 +4,7 @@ import com.mako.wawel.entity.auth.User;
 import com.mako.wawel.entity.movies.*;
 import com.mako.wawel.persistence.auth.UsersRepository;
 import com.mako.wawel.persistence.movies.*;
+import com.mako.wawel.request.GetUserInfoResponse;
 import com.mako.wawel.request.movies.*;
 import com.mako.wawel.response.movies.*;
 import com.mako.wawel.service.movies.mapper.MoviesMapper;
@@ -145,7 +146,6 @@ public class MoviesService {
                 .repertoireId(screening.getRepertoire().getId())
                 .date(screening.getDate())
                 .startTime(screening.getStartTime())
-                .endTime(screening.getEndTime())
                 .movieType(screening.getMovieType())
                 .movieSoundType(screening.getMovieSoundType())
                 .seats(screening.getSeats())
@@ -163,7 +163,6 @@ public class MoviesService {
                 .repertoire(repertoire)
                 .date(request.getDate())
                 .startTime(request.getStartTime())
-                .endTime(request.getEndTime())
                 .movieType(request.getMovieType())
                 .movieSoundType(request.getMovieSoundType())
                 .seats(Screening.newSeats())
@@ -182,5 +181,17 @@ public class MoviesService {
                 .endDate(request.getEndDate())
                 .build());
         return null;
+    }
+
+    public GetUserInfoResponse getUserInfo(Long userId) {
+        User user = usersRepository.findById(userId).orElseThrow();
+        return GetUserInfoResponse.builder()
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .tickets(user.getTickets().stream().map(MoviesMapper::toTicketResponse).toList())
+                .reviews(user.getReviews().stream().map(MoviesMapper::toMovieReviewResponse).toList())
+                .watchedMovies(user.getWatchedMovies())
+                .build();
+
     }
 }

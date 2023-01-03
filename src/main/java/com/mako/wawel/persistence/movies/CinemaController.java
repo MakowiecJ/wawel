@@ -2,6 +2,7 @@ package com.mako.wawel.persistence.movies;
 
 import com.mako.wawel.common.City;
 import com.mako.wawel.entity.movies.Movie;
+import com.mako.wawel.request.GetUserInfoResponse;
 import com.mako.wawel.request.movies.*;
 import com.mako.wawel.response.movies.GeneralMovieResponse;
 import com.mako.wawel.response.movies.GetRepertoireResponse;
@@ -14,14 +15,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders = "*")
 @RequestMapping("/movies")
-public class MoviesController {
+public class CinemaController {
 
     @Autowired
     private MoviesService service;
@@ -79,5 +79,11 @@ public class MoviesController {
     @PostMapping("/screening")
     public Void addScreening(@RequestBody final AddScreeningRequest request) {
         return service.addScreening(request);
+    }
+
+
+    @GetMapping("/users/{userId}")
+    public GetUserInfoResponse getUserInfo(@PathVariable final Long userId) {
+        return service.getUserInfo(userId);
     }
 }

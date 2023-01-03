@@ -12,6 +12,8 @@ import lombok.ToString;
 public class MovieReviewResponse {
     private Long id;
 
+    private Long movieId;
+
     private Long userId;
 
     private String username;

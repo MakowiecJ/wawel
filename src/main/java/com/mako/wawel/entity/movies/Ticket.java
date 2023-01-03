@@ -1,6 +1,7 @@
 package com.mako.wawel.entity.movies;
 
 import com.mako.wawel.common.TicketType;
+import com.mako.wawel.entity.auth.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,6 +17,10 @@ public class Ticket {
     @Id
     @GeneratedValue
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "screening_id")
