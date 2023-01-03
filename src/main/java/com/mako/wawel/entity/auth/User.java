@@ -1,13 +1,12 @@
 package com.mako.wawel.entity.auth;
 
 import com.mako.wawel.entity.movies.Review;
-import com.mako.wawel.entity.movies.Ticket;
+import com.mako.wawel.entity.cinema.Ticket;
 import lombok.Data;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

@@ -1,7 +1,7 @@
 package com.mako.wawel.request;
 
 import com.mako.wawel.response.TicketResponse;
-import com.mako.wawel.response.movies.MovieReviewResponse;
+import com.mako.wawel.response.MovieReviewResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

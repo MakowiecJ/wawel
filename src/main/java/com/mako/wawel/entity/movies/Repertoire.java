@@ -1,5 +1,6 @@
 package com.mako.wawel.entity.movies;
 
+import com.mako.wawel.entity.cinema.Cinema;
 import lombok.*;
 
 import javax.persistence.*;

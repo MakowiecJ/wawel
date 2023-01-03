@@ -2,7 +2,7 @@ package com.mako.wawel.service.auth;
 
 import com.mako.wawel.entity.auth.Role;
 import com.mako.wawel.entity.auth.User;
-import com.mako.wawel.persistence.auth.UsersRepository;
+import com.mako.wawel.persistence.repositories.auth.UsersRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -33,6 +32,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private Collection< ? extends GrantedAuthority> mapRolesToAuthorities(Set<Role> roles){
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .toList();
     }
 }
