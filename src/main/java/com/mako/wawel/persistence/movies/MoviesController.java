@@ -1,5 +1,6 @@
 package com.mako.wawel.persistence.movies;
 
+import com.mako.wawel.common.City;
 import com.mako.wawel.entity.movies.Movie;
 import com.mako.wawel.request.movies.*;
 import com.mako.wawel.response.movies.GeneralMovieResponse;
@@ -11,6 +12,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -56,8 +59,8 @@ public class MoviesController {
     }
 
     @GetMapping("/repertoire")
-    public GetRepertoireResponse getRepertoire(@RequestBody final GetRepertoireRequest request) {
-        return service.getRepertoire(request);
+    public GetRepertoireResponse getRepertoire(@RequestParam final City city, @RequestParam final LocalDate date) {
+        return service.getRepertoire(new GetRepertoireRequest(city, date));
     }
 
     @PostMapping("/repertoire")
