@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CinemaRepository extends JpaRepository<Cinema, Long> {
-    Cinema findByCity(City city);
+    Cinema findByCity(final City city);
 }

@@ -11,6 +11,7 @@ import java.util.List;
 @Builder
 public class BuyTicketsRequest {
     private Long userId;
+    private String email;
     private Long screeningId;
     List<BuyTicketInfo> tickets;
 }

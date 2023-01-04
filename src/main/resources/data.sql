@@ -1096,7 +1096,7 @@ DROP TABLE IF EXISTS tickets;
 CREATE TABLE tickets
 (
     id           BIGINT PRIMARY KEY AUTO_INCREMENT,
-    user_id      BIGINT      NOT NULL,
+    user_id      BIGINT,
     screening_id BIGINT      NOT NULL,
     seat_row     INT         NOT NULL,
     seat_number  INT         NOT NULL,

@@ -221,15 +221,28 @@ public class MoviesService {
 
             screening.changeSeatStatus(ticket.getSeatRow(), ticket.getSeatNumber());
 
-            User user = usersRepository.findById(request.getUserId()).orElseThrow();
+            Ticket ticketEntity;
 
-            Ticket ticketEntity = Ticket.builder()
-                    .user(user)
-                    .screening(screening)
-                    .seatRow(ticket.getSeatRow())
-                    .seatNumber(ticket.getSeatNumber())
-                    .ticketType(ticket.getTicketType())
-                    .build();
+            if (request.getUserId() != null) {
+                User user = usersRepository.findById(request.getUserId()).orElseThrow();
+
+                ticketEntity = Ticket.builder()
+                        .user(user)
+                        .screening(screening)
+                        .seatRow(ticket.getSeatRow())
+                        .seatNumber(ticket.getSeatNumber())
+                        .ticketType(ticket.getTicketType())
+                        .build();
+            } else {
+                ticketEntity = Ticket.builder()
+                        .user(null)
+                        .screening(screening)
+                        .seatRow(ticket.getSeatRow())
+                        .seatNumber(ticket.getSeatNumber())
+                        .ticketType(ticket.getTicketType())
+                        .build();
+            }
+
 
             ticketsRepository.save(ticketEntity);
         }
