@@ -20,7 +20,6 @@ public class GetScreeningResponse {
     private Long repertoireId;
     private LocalDate date;
     private LocalTime startTime;
-    private LocalTime endTime;
     private MovieType movieType;
     private MovieSoundType movieSoundType;
     private String[][] seats;
