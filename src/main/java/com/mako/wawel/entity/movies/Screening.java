@@ -53,7 +53,7 @@ public class Screening {
         String[][] seats = new String[12][18];
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 18; j++) {
-                if (j > 12 && j < 16 && i < 12 || j > 15 && i < 8) {
+                if (j > 12 && j < 16 && i < 11 || j > 15 && i < 8) {
                     seats[i][j] = Availability.NIE_ISTNIEJE.name();
                 } else {
                     seats[i][j] = Availability.WOLNE.name();
