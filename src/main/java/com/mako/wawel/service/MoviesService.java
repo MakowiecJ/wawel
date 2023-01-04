@@ -1,10 +1,14 @@
 package com.mako.wawel.service;
 
+import com.mako.wawel.common.Status;
 import com.mako.wawel.entity.auth.User;
 import com.mako.wawel.entity.cinema.Cinema;
 import com.mako.wawel.entity.cinema.Screen;
 import com.mako.wawel.entity.cinema.Ticket;
-import com.mako.wawel.entity.movies.*;
+import com.mako.wawel.entity.movies.Movie;
+import com.mako.wawel.entity.movies.Repertoire;
+import com.mako.wawel.entity.movies.Review;
+import com.mako.wawel.entity.movies.Screening;
 import com.mako.wawel.persistence.repositories.*;
 import com.mako.wawel.persistence.repositories.auth.UsersRepository;
 import com.mako.wawel.request.*;
@@ -67,8 +71,12 @@ public class MoviesService {
                 .genre(request.getGenre())
                 .minAge(request.getMinAge())
                 .duration(request.getDuration())
+                .posterSource(request.getPosterSource())
+                .trailerSource(request.getTrailerSource())
+                .status(Status.BRAK_SEANSU)
                 .description(request.getDescription())
                 .reviews(new ArrayList<>())
+                .screenings(new ArrayList<>())
                 .build());
     }
 

@@ -18,6 +18,9 @@ public class MoviesMapper {
                 .genre(movie.getGenre())
                 .minAge(movie.getMinAge())
                 .duration(movie.getDuration())
+                .status(movie.getStatus())
+                .posterSource(movie.getPosterSource())
+                .trailerSource(movie.getTrailerSource())
                 .description(movie.getDescription())
                 .averageRating(movie.getAverageRating())
                 .build();

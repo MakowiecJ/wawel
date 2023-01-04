@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS roles;
 CREATE TABLE roles
 (
     id   INTEGER     NOT NULL AUTO_INCREMENT,
-    name VARCHAR(60) NOT NULL,
+    name VARCHAR(100) NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -10,9 +10,9 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users
 (
     id       BIGINT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(60) NOT NULL,
-    password VARCHAR(60) NOT NULL,
-    email    VARCHAR(60) NOT NULL,
+    username VARCHAR(200) NOT NULL,
+    password VARCHAR(200) NOT NULL,
+    email    VARCHAR(200) NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -209,12 +209,15 @@ VALUES (1, '2023-01-01'),
 DROP TABLE IF EXISTS movies;
 CREATE TABLE movies
 (
-    id          BIGINT PRIMARY KEY AUTO_INCREMENT,
-    title       VARCHAR(60)   NOT NULL,
-    genre       VARCHAR(60)   NOT NULL,
-    min_age     INTEGER       NOT NULL,
-    duration    INTEGER       NOT NULL,
-    description VARCHAR(1000) NOT NULL,
+    id             BIGINT PRIMARY KEY AUTO_INCREMENT,
+    title          VARCHAR(200)   NOT NULL,
+    genre          VARCHAR(200)   NOT NULL,
+    min_age        INTEGER       NOT NULL,
+    duration       INTEGER       NOT NULL,
+    status         VARCHAR(200)   NOT NULL,
+    poster_source  VARCHAR(300),
+    trailer_source VARCHAR(300),
+    description    VARCHAR(5000) NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -235,12 +238,12 @@ INSERT INTO user_roles(user_id, role_id)
 VALUES (1, 1),
        (2, 2);
 
-INSERT INTO movies(title, genre, min_age, duration, description)
-VALUES ('Avatar: Istota wody', 'Sci-Fi', 13, 193,
+INSERT INTO movies(title, genre, min_age, duration, status, description)
+VALUES ('Avatar: Istota wody', 'Sci-Fi', 13, 193, 'GRANY',
         'Akcja filmu Avatar: Istota wody rozgrywa się ponad dziesięć lat po wydarzeniach z pierwszej części. To opowieść o rodzinie Jake’a i Neytiri oraz ich staraniach, by zapewnić bezpieczeństwo sobie i swoim dzieciom, mimo tragedii, których wspólnie doświadczają i bitew, które muszą stoczyć, aby przeżyć.* Drodzy widzowie w filmie Avatar: Istota wody znajduje się kilka scen z dynamicznymi efektami świetlnymi, które mogą powodować dyskomfort u widzów wrażliwych na światło i wpływać na osoby z epilepsją fotogenną.'),
-       ('Listy do M. 5', 'Komedia Romantyczna', 13, 117,
+       ('Listy do M. 5', 'Komedia Romantyczna', 13, 117, 'GRANY',
         '"Listy do M." powracają z 5. częścią wigilijnej opowieści. W kolejnej odsłonie zobaczymy świąteczne perypetie ulubionych bohaterów. Z czym zmierzą się tym razem? Melowi jak zwykle nic nie wychodzi. Zbieg okoliczności sprawia, że staje się bohaterem mimo woli, a jego nie zawsze kryształowy charakter znowu zostaje wystawiony na próbę. Wojciech, który nie czuje wszechobecnej radosnej atmosfery, spotyka na swojej drodze kogoś, kto zmienia jego świąteczne plany. Z kolei Karina i Szczepan uwikłają się w walkę o spadek, który może poróżnić nawet najbliższych. Przekonają się czy z rodziną rzeczywiście dobrze wychodzi się tylko na zdjęciach. To oczywiście nie wszystko! W tej części pojawią się też nowi bohaterowie i ich zaskakujące historie. "Listy do M. 5" skupią się na uniwersalnych wartościach, takich jak miłość, bliskość czy życzliwość, które obecnie są najistotniejsze.'),
-       ('Dzika Noc', 'Akcja', 15, 112, 'Producenci filmów ”Nikt”, „John Wick”, „Deadpool 2” realizują dla studia Universal mroczny thriller „Dzika Noc”.
+       ('Dzika Noc', 'Akcja', 15, 112, 'GRANY', 'Producenci filmów ”Nikt”, „John Wick”, „Deadpool 2” realizują dla studia Universal mroczny thriller „Dzika Noc”.
 
 Zobaczymy między innymi gwiazdę serialu "Stranger Things” Davida Harboura oraz zdobywcę nagrody Emmy- Johnego Leguizamo oraz innych: Edi Pattersona, Cam Gigandet Alexa Hassella i Beverly D''Angelo.
 
@@ -255,7 +258,7 @@ CREATE TABLE reviews
     movie_id    BIGINT       NOT NULL,
     user_id     BIGINT       NOT NULL,
     rating      INT          NOT NULL,
-    review_text VARCHAR(255) NOT NULL,
+    review_text VARCHAR(5000) NOT NULL,
     FOREIGN KEY (movie_id) REFERENCES movies (id),
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
@@ -307,8 +310,8 @@ CREATE TABLE screenings
     screen_id        BIGINT         NOT NULL,
     movie_id         BIGINT         NOT NULL,
     start_time       TIME           NOT NULL,
-    movie_type       VARCHAR(8)     NOT NULL,
-    movie_sound_type VARCHAR(12)    NOT NULL,
+    movie_type       VARCHAR(100)     NOT NULL,
+    movie_sound_type VARCHAR(50)    NOT NULL,
     seats            VARCHAR(12000) NOT NULL,
     FOREIGN KEY (repertoire_id) REFERENCES repertoire (id),
     FOREIGN KEY (screen_id) REFERENCES screen (id),
@@ -1100,7 +1103,7 @@ CREATE TABLE tickets
     screening_id BIGINT      NOT NULL,
     seat_row     INT         NOT NULL,
     seat_number  INT         NOT NULL,
-    ticket_type  VARCHAR(32) NOT NULL,
+    ticket_type  VARCHAR(50) NOT NULL,
     FOREIGN KEY (screening_id) REFERENCES screenings (id)
 );
 

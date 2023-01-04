@@ -1,5 +1,6 @@
 package com.mako.wawel.response;
 
+import com.mako.wawel.common.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +21,13 @@ public class GeneralMovieResponse {
 
     private int duration;
 
-    private double averageRating;
+    private Double averageRating;
+
+    private Status status;
+
+    private String posterSource;
+
+    private String trailerSource;
 
     private String description;
 }

@@ -20,7 +20,6 @@ public class AddScreeningRequest {
     private Long movieId;
     private LocalDate date;
     private LocalTime startTime;
-    private LocalTime endTime;
     private MovieType movieType;
     private MovieSoundType movieSoundType;
 }

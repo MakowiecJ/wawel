@@ -17,5 +17,9 @@ public class AddMovieRequest {
 
     private int duration;
 
+    private String posterSource;
+
+    private String trailerSource;
+
     private String description;
 }
