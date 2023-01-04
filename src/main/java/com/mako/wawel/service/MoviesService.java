@@ -80,9 +80,10 @@ public class MoviesService {
                 .build());
     }
 
-    public void deleteMovie(final Long movieId) {
+    public ResponseEntity<String> deleteMovie(final Long movieId) {
         Optional<Movie> toDelete = moviesRepository.findById(movieId);
         moviesRepository.delete(toDelete.orElseThrow());
+        return new ResponseEntity<>("Pomyślnie usunięto film!", HttpStatus.OK);
     }
 
     public List<MovieReviewResponse> getMovieReviews(Long movieId) {
@@ -91,7 +92,7 @@ public class MoviesService {
                 .toList();
     }
 
-    public Void addReview(AddReviewRequest request) {
+    public ResponseEntity<String> addReview(AddReviewRequest request) {
         Review review = reviewsRepository.findByMovieIdAndUserId(request.getMovieId(), request.getUserId());
         Movie movie = moviesRepository.findById(request.getMovieId()).orElseThrow();
         User user = usersRepository.findById(request.getUserId()).orElseThrow();
@@ -109,7 +110,7 @@ public class MoviesService {
                     .build();
             reviewsRepository.save(newReview);
         }
-        return null;
+        return new ResponseEntity<>("Pomyślnie dodano recenzję!", HttpStatus.OK);
     }
 
     public GetRepertoireResponse getRepertoire(GetRepertoireRequest request) {
@@ -170,11 +171,17 @@ public class MoviesService {
                 .build();
     }
 
-    public Void addScreening(AddScreeningRequest request) {
+    public ResponseEntity<String> addScreening(AddScreeningRequest request) {
+        Movie movie = moviesRepository.findById(request.getMovieId()).orElseThrow();
+
+        if (movie.getStatus().equals(Status.ZARCHIWIZOWANY)) {
+            return new ResponseEntity<>("Nie można dodać filmu, który jest zarchiwizowany!", HttpStatus.BAD_REQUEST);
+        }
+
         Cinema cinema = cinemasRepository.findByCity(request.getCity());
         Screen screen = screensRepository.findByCinemaIdAndScreenName(cinema.getId(), request.getScreenName());
-        Movie movie = moviesRepository.findById(request.getMovieId()).orElseThrow();
         Repertoire repertoire = repertoireRepository.findByCinemaAndDate(cinema, request.getDate());
+
         Screening screening = Screening.builder()
                 .screen(screen)
                 .movie(movie)
@@ -189,14 +196,14 @@ public class MoviesService {
         return null;
     }
 
-    public Void addRepertoire(AddRepertoireRequest request) {
+    public ResponseEntity<String> addRepertoire(AddRepertoireRequest request) {
         Cinema cinema = cinemasRepository.findByCity(request.getCity());
 
         repertoireRepository.save(Repertoire.builder()
                 .cinema(cinema)
                 .date(request.getDate())
                 .build());
-        return null;
+        return new ResponseEntity<>("Pomyślnie dodano repertuar!", HttpStatus.OK);
     }
 
     public GetUserInfoResponse getUserInfo(Long userId) {
@@ -257,9 +264,11 @@ public class MoviesService {
         return new ResponseEntity<>("Pomyślnie zakupiono biliety!", HttpStatus.OK);
     }
 
-    public void archiveMovie(Long movieId) {
+    public ResponseEntity<String> archiveMovie(Long movieId) {
         Movie movie = moviesRepository.findById(movieId).orElseThrow();
         movie.setStatus(Status.ZARCHIWIZOWANY);
         moviesRepository.save(movie);
+
+        return new ResponseEntity<>("Pomyślnie zarchiwizowano film!", HttpStatus.OK);
     }
 }

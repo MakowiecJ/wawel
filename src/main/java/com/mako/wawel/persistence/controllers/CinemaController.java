@@ -49,13 +49,13 @@ public class CinemaController {
 
     @DeleteMapping("{movieId}")
 //    @Secured("role_admin")
-    public void deleteMovie(@PathVariable final Long movieId) {
-        service.deleteMovie(movieId);
+    public ResponseEntity<String> deleteMovie(@PathVariable final Long movieId) {
+        return service.deleteMovie(movieId);
     }
 
     @PostMapping("/reviews")
 //    @Secured("role_user")
-    public Void addReview(@RequestBody final AddReviewRequest request) {
+    public ResponseEntity<String> addReview(@RequestBody final AddReviewRequest request) {
         return service.addReview(request);
     }
 
@@ -67,7 +67,7 @@ public class CinemaController {
     }
 
     @PostMapping("/repertoire")
-    public Void addRepertoire(@RequestBody final AddRepertoireRequest request) {
+    public ResponseEntity<String> addRepertoire(@RequestBody final AddRepertoireRequest request) {
         return service.addRepertoire(request);
     }
 
@@ -77,7 +77,7 @@ public class CinemaController {
     }
 
     @PostMapping("/screening")
-    public Void addScreening(@RequestBody final AddScreeningRequest request) {
+    public ResponseEntity<String> addScreening(@RequestBody final AddScreeningRequest request) {
         return service.addScreening(request);
     }
 
@@ -93,7 +93,7 @@ public class CinemaController {
     }
 
     @PostMapping("/archive/{movieId}")
-    public Void archiveMovie(@PathVariable final Long movieId) {
+    public ResponseEntity<String> archiveMovie(@PathVariable final Long movieId) {
         service.archiveMovie(movieId);
         return null;
     }
