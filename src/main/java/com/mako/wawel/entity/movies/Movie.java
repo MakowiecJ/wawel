@@ -1,10 +1,7 @@
 package com.mako.wawel.entity.movies;
 
 import com.mako.wawel.common.Status;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -16,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

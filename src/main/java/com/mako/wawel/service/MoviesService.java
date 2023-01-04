@@ -256,4 +256,10 @@ public class MoviesService {
         }
         return new ResponseEntity<>("Pomyślnie zakupiono biliety!", HttpStatus.OK);
     }
+
+    public void archiveMovie(Long movieId) {
+        Movie movie = moviesRepository.findById(movieId).orElseThrow();
+        movie.setStatus(Status.ZARCHIWIZOWANY);
+        moviesRepository.save(movie);
+    }
 }

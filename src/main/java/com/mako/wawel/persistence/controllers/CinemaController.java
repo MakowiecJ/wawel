@@ -91,4 +91,10 @@ public class CinemaController {
     public ResponseEntity<String> buyTickets(@RequestBody final BuyTicketsRequest request) {
         return service.buyTickets(request);
     }
+
+    @PostMapping("/archive/{movieId}")
+    public Void archiveMovie(@PathVariable final Long movieId) {
+        service.archiveMovie(movieId);
+        return null;
+    }
 }
