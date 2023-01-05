@@ -282,4 +282,14 @@ public class MoviesService {
 
         return new ResponseEntity<>("Pomyślnie zarchiwizowano film!", HttpStatus.OK);
     }
+
+    public ResponseEntity<?> getReview(Long reviewId) {
+        Optional<Review> review = reviewsRepository.findById(reviewId);
+
+        if (review.isEmpty()) {
+            return new ResponseEntity<>("Nie znaleziono takiej recenzji!", HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(MoviesMapper.toMovieReviewResponse(review.get()), HttpStatus.OK);
+        }
+    }
 }

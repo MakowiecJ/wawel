@@ -56,6 +56,11 @@ public class CinemaController {
         return service.addReview(request);
     }
 
+    @GetMapping("review/{reviewId}")
+    public ResponseEntity<?> getReview(@PathVariable final Long reviewId) {
+        return service.getReview(reviewId);
+    }
+
     @GetMapping("/repertoire")
     public GetRepertoireResponse getRepertoire(
             @RequestParam final City city,
