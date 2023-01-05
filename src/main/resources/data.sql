@@ -209,15 +209,16 @@ VALUES (1, '2023-01-01'),
 DROP TABLE IF EXISTS movies;
 CREATE TABLE movies
 (
-    id             BIGINT PRIMARY KEY AUTO_INCREMENT,
-    title          VARCHAR(200)  NOT NULL,
-    genre          VARCHAR(200)  NOT NULL,
-    min_age        INTEGER       NOT NULL,
-    duration       INTEGER       NOT NULL,
-    status         VARCHAR(200)  NOT NULL,
-    poster_source  VARCHAR(300),
-    trailer_source VARCHAR(300),
-    description    VARCHAR(5000) NOT NULL,
+    id               BIGINT PRIMARY KEY AUTO_INCREMENT,
+    title            VARCHAR(200)  NOT NULL,
+    genre            VARCHAR(200)  NOT NULL,
+    min_age          INTEGER       NOT NULL,
+    duration         INTEGER       NOT NULL,
+    status           VARCHAR(200)  NOT NULL,
+    poster_source    VARCHAR(500),
+    trailer_source   VARCHAR(500),
+    big_image_source VARCHAR(500),
+    description      VARCHAR(5000) NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -257,7 +258,7 @@ CREATE TABLE reviews
     id          BIGINT PRIMARY KEY AUTO_INCREMENT,
     movie_id    BIGINT NOT NULL,
     user_id     BIGINT NOT NULL,
-    rating      INT NOT NULL,
+    rating      INT    NOT NULL,
     review_text VARCHAR(5000),
     FOREIGN KEY (movie_id) REFERENCES movies (id),
     FOREIGN KEY (user_id) REFERENCES users (id)

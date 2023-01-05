@@ -36,6 +36,9 @@ public class Movie {
     @Column(name = "poster_source")
     private String posterSource;
 
+    @Column(name = "big_image_source")
+    private String bigImageSource;
+
     @Column(name = "trailer_source")
     private String trailerSource;
 

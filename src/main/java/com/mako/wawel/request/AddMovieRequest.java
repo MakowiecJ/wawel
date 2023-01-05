@@ -19,6 +19,8 @@ public class AddMovieRequest {
 
     private String posterSource;
 
+    private String bigImageSource;
+
     private String trailerSource;
 
     private String description;

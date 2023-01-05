@@ -72,6 +72,7 @@ public class MoviesService {
                 .minAge(request.getMinAge())
                 .duration(request.getDuration())
                 .posterSource(request.getPosterSource())
+                .bigImageSource(request.getBigImageSource())
                 .trailerSource(request.getTrailerSource())
                 .status(Status.BRAK_SEANSU)
                 .description(request.getDescription())
