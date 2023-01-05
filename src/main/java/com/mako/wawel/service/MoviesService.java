@@ -98,6 +98,10 @@ public class MoviesService {
             return new ResponseEntity<>("Nie można dodać recenzji bez oceny!", HttpStatus.BAD_REQUEST);
         }
 
+        if (request.getRating() < 1 || request.getRating() > 5) {
+            return new ResponseEntity<>("Ocena może być liczbą całkowitą z zakresu [1-5]!", HttpStatus.BAD_REQUEST);
+        }
+
         Review review = reviewsRepository.findByMovieIdAndUserId(request.getMovieId(), request.getUserId());
         Movie movie = moviesRepository.findById(request.getMovieId()).orElseThrow();
         User user = usersRepository.findById(request.getUserId()).orElseThrow();

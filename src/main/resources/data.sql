@@ -257,7 +257,7 @@ CREATE TABLE reviews
     id          BIGINT PRIMARY KEY AUTO_INCREMENT,
     movie_id    BIGINT NOT NULL,
     user_id     BIGINT NOT NULL,
-    rating      DOUBLE NOT NULL,
+    rating      INT NOT NULL,
     review_text VARCHAR(5000),
     FOREIGN KEY (movie_id) REFERENCES movies (id),
     FOREIGN KEY (user_id) REFERENCES users (id)

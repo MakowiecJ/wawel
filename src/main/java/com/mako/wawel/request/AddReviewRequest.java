@@ -10,6 +10,6 @@ import lombok.ToString;
 public class AddReviewRequest {
     private Long userId;
     private Long movieId;
-    private Double rating;
+    private Integer rating;
     private String reviewText;
 }

@@ -18,7 +18,7 @@ public class MovieReviewResponse {
 
     private String username;
 
-    private Double rating;
+    private Integer rating;
 
     private String reviewText;
 }
