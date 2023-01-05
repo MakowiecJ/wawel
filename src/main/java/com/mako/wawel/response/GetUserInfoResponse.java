@@ -1,7 +1,6 @@
-package com.mako.wawel.request;
+package com.mako.wawel.response;
 
-import com.mako.wawel.response.TicketResponse;
-import com.mako.wawel.response.MovieReviewResponse;
+import com.mako.wawel.entity.auth.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,6 +16,7 @@ import java.util.Set;
 public class GetUserInfoResponse {
     private String username;
     private String email;
+    private Set<Role> roles;
     private List<TicketResponse> tickets;
     private Set<Long> watchedMovies;
     private List<MovieReviewResponse> reviews;

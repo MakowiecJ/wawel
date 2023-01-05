@@ -211,6 +211,7 @@ public class MoviesService {
         return GetUserInfoResponse.builder()
                 .username(user.getUsername())
                 .email(user.getEmail())
+                .roles(user.getRoles())
                 .tickets(user.getTickets().stream().map(MoviesMapper::toTicketResponse).toList())
                 .reviews(user.getReviews().stream().map(MoviesMapper::toMovieReviewResponse).toList())
                 .watchedMovies(user.getWatchedMovies())
