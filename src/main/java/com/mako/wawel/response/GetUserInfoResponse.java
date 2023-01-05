@@ -18,6 +18,6 @@ public class GetUserInfoResponse {
     private String email;
     private Set<Role> roles;
     private List<TicketResponse> tickets;
-    private Set<Long> watchedMovies;
+    private List<GeneralMovieResponse> watchedMovies;
     private List<MovieReviewResponse> reviews;
 }

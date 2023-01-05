@@ -1,7 +1,10 @@
 package com.mako.wawel.entity.auth;
 
+import com.mako.wawel.entity.movies.Movie;
 import com.mako.wawel.entity.movies.Review;
 import com.mako.wawel.entity.cinema.Ticket;
+import com.mako.wawel.response.GeneralMovieResponse;
+import com.mako.wawel.service.mapper.MoviesMapper;
 import lombok.Data;
 import lombok.Setter;
 
@@ -42,13 +45,16 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
 
-    public Set<Long> getWatchedMovies() {
-        Set<Long> movieIds = new HashSet<>();
+    public List<GeneralMovieResponse> getWatchedMovies() {
+        Set<Movie> movies = new HashSet<>();
         for (Ticket ticket : tickets) {
             if (ticket.getScreening().getRepertoire().getDate().isBefore(LocalDate.now())) {
-                movieIds.add(ticket.getScreening().getMovie().getId());
+                movies.add(ticket.getScreening().getMovie());
             }
         }
-        return movieIds;
+
+        return movies.stream()
+                .map(MoviesMapper::toMovieResponse)
+                .toList();
     }
 }
