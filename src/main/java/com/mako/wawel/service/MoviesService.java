@@ -109,7 +109,9 @@ public class MoviesService {
 
         if (review != null) {
             review.setRating(request.getRating());
-            review.setReviewText(request.getReviewText());
+            if (request.getReviewText() != null) {
+                review.setReviewText(request.getReviewText());
+            }
             reviewsRepository.save(review);
         } else {
             Review newReview = Review.builder()

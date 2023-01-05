@@ -1,0 +1,16 @@
+
+
+  o              o           o           o              o    o__ __o__/_   o
+ <|>            <|>         <|>         <|>            <|>  <|    v       <|>
+ / \            / \         / \         / \            / \  < >           / \
+ \o/            \o/       o/   \o       \o/            \o/   |            \o/
+  |              |       <|__ __|>       |              |    o__/_         |
+ < >            < >      /       \      < >            < >   |            / \
+  \o    o/\o    o/     o/         \o     \o    o/\o    o/   <o>           \o/
+   v\  /v  v\  /v     /v           v\     v\  /v  v\  /v     |             |
+    <\/>    <\/>     />             <\     <\/>    <\/>     / \  _\o__/_  / \ _\o__/_
+
+
+
+${application.title} ${application.version}
+Powered by Spring Boot ${spring-boot.version}
