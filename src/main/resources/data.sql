@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS roles;
 CREATE TABLE roles
 (
-    id   INTEGER     NOT NULL AUTO_INCREMENT,
+    id   INTEGER      NOT NULL AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
     PRIMARY KEY (id)
 );
@@ -210,11 +210,11 @@ DROP TABLE IF EXISTS movies;
 CREATE TABLE movies
 (
     id             BIGINT PRIMARY KEY AUTO_INCREMENT,
-    title          VARCHAR(200)   NOT NULL,
-    genre          VARCHAR(200)   NOT NULL,
+    title          VARCHAR(200)  NOT NULL,
+    genre          VARCHAR(200)  NOT NULL,
     min_age        INTEGER       NOT NULL,
     duration       INTEGER       NOT NULL,
-    status         VARCHAR(200)   NOT NULL,
+    status         VARCHAR(200)  NOT NULL,
     poster_source  VARCHAR(300),
     trailer_source VARCHAR(300),
     description    VARCHAR(5000) NOT NULL,
@@ -255,10 +255,10 @@ DROP TABLE IF EXISTS reviews;
 CREATE TABLE reviews
 (
     id          BIGINT PRIMARY KEY AUTO_INCREMENT,
-    movie_id    BIGINT       NOT NULL,
-    user_id     BIGINT       NOT NULL,
-    rating      INT          NOT NULL,
-    review_text VARCHAR(5000) NOT NULL,
+    movie_id    BIGINT NOT NULL,
+    user_id     BIGINT NOT NULL,
+    rating      DOUBLE NOT NULL,
+    review_text VARCHAR(5000),
     FOREIGN KEY (movie_id) REFERENCES movies (id),
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
@@ -310,7 +310,7 @@ CREATE TABLE screenings
     screen_id        BIGINT         NOT NULL,
     movie_id         BIGINT         NOT NULL,
     start_time       TIME           NOT NULL,
-    movie_type       VARCHAR(100)     NOT NULL,
+    movie_type       VARCHAR(100)   NOT NULL,
     movie_sound_type VARCHAR(50)    NOT NULL,
     seats            VARCHAR(12000) NOT NULL,
     FOREIGN KEY (repertoire_id) REFERENCES repertoire (id),

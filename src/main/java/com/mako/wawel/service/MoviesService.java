@@ -93,9 +93,15 @@ public class MoviesService {
     }
 
     public ResponseEntity<String> addReview(AddReviewRequest request) {
+
+        if (request.getReviewText() != null && request.getRating() == null) {
+            return new ResponseEntity<>("Nie można dodać recenzji bez oceny!", HttpStatus.BAD_REQUEST);
+        }
+
         Review review = reviewsRepository.findByMovieIdAndUserId(request.getMovieId(), request.getUserId());
         Movie movie = moviesRepository.findById(request.getMovieId()).orElseThrow();
         User user = usersRepository.findById(request.getUserId()).orElseThrow();
+
 
         if (review != null) {
             review.setRating(request.getRating());

@@ -18,8 +18,9 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int rating;
+    private Double rating;
 
+    @Column(name = "review_text")
     private String reviewText;
 
     @ManyToOne
