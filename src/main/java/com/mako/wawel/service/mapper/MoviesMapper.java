@@ -52,5 +52,4 @@ public class MoviesMapper {
                 .build();
     }
 
-//    public static GetTicketsResponse toGetTicketsResponse()
 }

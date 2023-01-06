@@ -70,7 +70,7 @@ public class CinemaController {
     public ResponseEntity<?> getRepertoire(
             @RequestParam final City city,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final LocalDate date) {
-        return service.getRepertoire(new GetRepertoireRequest(city, date));
+        return service.getRepertoire(GetRepertoireRequest.of(city, date));
     }
 
     @PostMapping("/repertoire/edit")
@@ -79,7 +79,7 @@ public class CinemaController {
     }
 
     @PostMapping("/repertoire")
-    public ResponseEntity<String> addRepertoire(@RequestBody final AddRepertoireRequest request) {
+    public GetRepertoireResponse addRepertoire(@RequestBody final AddRepertoireRequest request) {
         return service.addRepertoire(request);
     }
 

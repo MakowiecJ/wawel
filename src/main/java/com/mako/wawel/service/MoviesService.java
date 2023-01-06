@@ -131,7 +131,7 @@ public class MoviesService {
         Optional<Repertoire> repertoire = repertoireRepository.findByCinemaAndDate(cinema, request.getDate());
 
         if (repertoire.isEmpty()) {
-            return new ResponseEntity<>("Brak repertuaru na dany dzień", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(addRepertoire(AddRepertoireRequest.of(request.getCity(), request.getDate())), HttpStatus.OK);
         }
 
         List<RepertoireItem> items = new ArrayList<>();
@@ -140,38 +140,42 @@ public class MoviesService {
         Map<Long, GeneralMovieResponse> idToMovie = new HashMap<>();
         Map<Long, List<ScreeningItem>> screeningToMovie = new HashMap<>();
 
-        for (Screening screening : repertoire.get().getScreenings()) {
-            if (screening.getRepertoire().getDate().equals(request.getDate())) {
-                if (!movieIds.contains(screening.getMovie().getId())) {
-                    movieIds.add(screening.getMovie().getId());
-                    idToMovie.put(screening.getMovie().getId(), MoviesMapper.toMovieResponse(screening.getMovie()));
 
-                    screeningToMovie.put(screening.getMovie().getId(), List.of(ScreeningItem.builder()
-                            .screeningId(screening.getId())
-                            .startTime(screening.getStartTime())
-                            .screenName(screening.getScreen().getScreenName())
-                            .movieType(screening.getMovieType())
-                            .movieSoundType(screening.getMovieSoundType())
-                            .build()));
-                } else {
-                    List<ScreeningItem> screeningItems = new ArrayList<>(screeningToMovie.get(screening.getMovie().getId()));
+        if (repertoire.get().getScreenings() != null) {
+            for (Screening screening : repertoire.get().getScreenings()) {
+                if (screening.getRepertoire().getDate().equals(request.getDate())) {
+                    if (!movieIds.contains(screening.getMovie().getId())) {
+                        movieIds.add(screening.getMovie().getId());
+                        idToMovie.put(screening.getMovie().getId(), MoviesMapper.toMovieResponse(screening.getMovie()));
 
-                    screeningItems.add(ScreeningItem.builder()
-                            .screeningId(screening.getId())
-                            .startTime(screening.getStartTime())
-                            .movieType(screening.getMovieType())
-                            .movieSoundType(screening.getMovieSoundType())
-                            .build());
-                    screeningToMovie.replace(screening.getMovie().getId(), screeningItems);
+                        screeningToMovie.put(screening.getMovie().getId(), List.of(ScreeningItem.builder()
+                                .screeningId(screening.getId())
+                                .startTime(screening.getStartTime())
+                                .screenName(screening.getScreen().getScreenName())
+                                .movieType(screening.getMovieType())
+                                .movieSoundType(screening.getMovieSoundType())
+                                .build()));
+                    } else {
+                        List<ScreeningItem> screeningItems = new ArrayList<>(screeningToMovie.get(screening.getMovie().getId()));
+
+                        screeningItems.add(ScreeningItem.builder()
+                                .screeningId(screening.getId())
+                                .startTime(screening.getStartTime())
+                                .movieType(screening.getMovieType())
+                                .movieSoundType(screening.getMovieSoundType())
+                                .build());
+                        screeningToMovie.replace(screening.getMovie().getId(), screeningItems);
+                    }
                 }
+
+            }
+            for (Map.Entry<Long, List<ScreeningItem>> entry : screeningToMovie.entrySet()) {
+                items.add(new RepertoireItem(idToMovie.get(entry.getKey()), entry.getValue()));
             }
 
         }
-        for (Map.Entry<Long, List<ScreeningItem>> entry : screeningToMovie.entrySet()) {
-            items.add(new RepertoireItem(idToMovie.get(entry.getKey()), entry.getValue()));
-        }
+        return new ResponseEntity<>(GetRepertoireResponse.of(request.getCity(), request.getDate(), items), HttpStatus.OK);
 
-        return new ResponseEntity<>(new GetRepertoireResponse(items), HttpStatus.OK);
     }
 
 
@@ -235,14 +239,14 @@ public class MoviesService {
         return null;
     }
 
-    public ResponseEntity<String> addRepertoire(AddRepertoireRequest request) {
+    public GetRepertoireResponse addRepertoire(AddRepertoireRequest request) {
         Cinema cinema = cinemasRepository.findByCity(request.getCity());
 
         repertoireRepository.save(Repertoire.builder()
                 .cinema(cinema)
                 .date(request.getDate())
                 .build());
-        return new ResponseEntity<>("Pomyślnie dodano repertuar", HttpStatus.OK);
+        return GetRepertoireResponse.of(request.getCity(), request.getDate(), new ArrayList<>());
     }
 
     public GetUserInfoResponse getUserInfo(Long userId) {

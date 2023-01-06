@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Getter
 @ToString
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "of")
 public class GetRepertoireRequest {
     private City city;
     private LocalDate date;
