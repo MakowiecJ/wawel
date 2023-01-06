@@ -21,6 +21,7 @@ public class TicketResponse {
     private LocalDate date;
     private LocalTime startTime;
     private String movieTitle;
+    private Long movieId;
     private ScreenName screenName;
     private TicketType ticketType;
     private int seatRow;

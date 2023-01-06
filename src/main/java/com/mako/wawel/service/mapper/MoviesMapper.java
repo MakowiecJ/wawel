@@ -44,10 +44,13 @@ public class MoviesMapper {
                 .date(ticket.getScreening().getRepertoire().getDate())
                 .startTime(ticket.getScreening().getStartTime())
                 .movieTitle(ticket.getScreening().getMovie().getTitle())
+                .movieId(ticket.getScreening().getMovie().getId())
                 .screenName(ticket.getScreening().getScreen().getScreenName())
                 .ticketType(ticket.getTicketType())
                 .seatRow(ticket.getSeatRow())
                 .seatNumber(ticket.getSeatNumber())
                 .build();
     }
+
+//    public static GetTicketsResponse toGetTicketsResponse()
 }
