@@ -73,6 +73,11 @@ public class CinemaController {
         return service.getRepertoire(new GetRepertoireRequest(city, date));
     }
 
+    @PostMapping("/repertoire/edit")
+    public ResponseEntity<?> editRepertoire(final @RequestBody EditRepertoireRequest request) {
+        return service.editRepertoire(request);
+    }
+
     @PostMapping("/repertoire")
     public ResponseEntity<String> addRepertoire(@RequestBody final AddRepertoireRequest request) {
         return service.addRepertoire(request);

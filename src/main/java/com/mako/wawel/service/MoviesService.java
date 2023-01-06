@@ -340,4 +340,46 @@ public class MoviesService {
         moviesRepository.save(movieEntity);
         return new ResponseEntity<>("Pomyślnie edytowano film", HttpStatus.OK);
     }
+
+    public ResponseEntity<?> editRepertoire(EditRepertoireRequest request) {
+        Cinema cinema = cinemasRepository.findByCity(request.getCity());
+        Optional<Repertoire> repertoire = repertoireRepository.findByCinemaAndDate(cinema, request.getDate());
+
+        if (repertoire.isEmpty()) {
+            return new ResponseEntity<>("Brak repertuaru w tym dniu", HttpStatus.NOT_FOUND);
+        }
+
+        for (EditScreeningRequest editScreeningRequest : request.getScreenings()) {
+            editScreening(editScreeningRequest);
+        }
+
+        return new ResponseEntity<>("Pomyślnie edytowano repertuar", HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> editScreening(EditScreeningRequest request) {
+        Optional<Screening> screening = screeningsRepository.findById(request.getScreeningId());
+
+        if (screening.isEmpty()) {
+            return new ResponseEntity<>("Nie znaleziono takiego seansu", HttpStatus.NOT_FOUND);
+        }
+
+        Screening screeningEntity = screening.get();
+
+        Cinema cinema = screeningEntity.getRepertoire().getCinema();
+        Screen screen = screensRepository.findByCinemaIdAndScreenName(cinema.getId(), request.getScreenName());
+        Optional<Movie> movie = moviesRepository.findById(request.getMovieId());
+        if (movie.isEmpty()) {
+            return new ResponseEntity<>("Nie znaleziono takiego filmu", HttpStatus.NOT_FOUND);
+        }
+
+        screeningEntity.setScreen(screen);
+        screeningEntity.setMovie(movie.get());
+        screeningEntity.setStartTime(request.getStartTime());
+        screeningEntity.setMovieType(request.getMovieType());
+        screeningEntity.setMovieSoundType(request.getMovieSoundType());
+
+        screeningsRepository.save(screeningEntity);
+
+        return new ResponseEntity<>("Pomyślnie edytowano seans", HttpStatus.OK);
+    }
 }

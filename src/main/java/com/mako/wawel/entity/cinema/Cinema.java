@@ -30,4 +30,7 @@ public class Cinema {
 
     @OneToMany
     private List<Repertoire> repertoires;
+
+    @OneToMany
+    private List<Screen> screens;
 }

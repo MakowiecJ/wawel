@@ -18,6 +18,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @ToString
 @Getter
+@Setter
 public class Screening {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
