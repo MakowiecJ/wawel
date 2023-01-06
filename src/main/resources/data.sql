@@ -215,9 +215,9 @@ CREATE TABLE movies
     min_age          INTEGER       NOT NULL,
     duration         INTEGER       NOT NULL,
     status           VARCHAR(200)  NOT NULL,
-    poster_source    VARCHAR(500),
-    trailer_source   VARCHAR(500),
-    big_image_source VARCHAR(500),
+    poster_source    MEDIUMTEXT,
+    trailer_source   MEDIUMTEXT,
+    big_image_source MEDIUMTEXT,
     description      VARCHAR(5000) NOT NULL,
     PRIMARY KEY (id)
 );

@@ -145,6 +145,7 @@ public class MoviesService {
                     screeningToMovie.put(screening.getMovie().getId(), List.of(ScreeningItem.builder()
                             .screeningId(screening.getId())
                             .startTime(screening.getStartTime())
+                            .screenName(screening.getScreen().getScreenName())
                             .movieType(screening.getMovieType())
                             .movieSoundType(screening.getMovieSoundType())
                             .build()));
