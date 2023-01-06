@@ -295,4 +295,23 @@ public class MoviesService {
             return new ResponseEntity<>(MoviesMapper.toMovieReviewResponse(review.get()), HttpStatus.OK);
         }
     }
+
+    public ResponseEntity<String> editMovie(EditMovieRequest request) {
+        Optional<Movie> movie = moviesRepository.findById(request.getMovieId());
+        if (movie.isEmpty()) {
+            return new ResponseEntity<>("Film o podanym id nie istnieje!", HttpStatus.BAD_REQUEST);
+        }
+        Movie movieEntity = movie.get();
+        movieEntity.setTitle(request.getTitle());
+        movieEntity.setGenre(request.getGenre());
+        movieEntity.setMinAge(request.getMinAge());
+        movieEntity.setDuration(request.getDuration());
+        movieEntity.setPosterSource(request.getPosterSource());
+        movieEntity.setBigImageSource(request.getBigImageSource());
+        movieEntity.setTrailerSource(request.getTrailerSource());
+        movieEntity.setDescription(request.getDescription());
+
+        moviesRepository.save(movieEntity);
+        return new ResponseEntity<>("Pomyślnie edytowano film", HttpStatus.OK);
+    }
 }

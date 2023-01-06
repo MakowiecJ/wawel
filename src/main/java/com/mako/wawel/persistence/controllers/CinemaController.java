@@ -44,6 +44,11 @@ public class CinemaController {
         return service.addMovie(request);
     }
 
+    @PostMapping("/edit")
+    public ResponseEntity<String> editMovie(@RequestBody final EditMovieRequest request) {
+        return service.editMovie(request);
+    }
+
     @DeleteMapping("{movieId}")
 //    @Secured("role_admin")
     public ResponseEntity<String> deleteMovie(@PathVariable final Long movieId) {
