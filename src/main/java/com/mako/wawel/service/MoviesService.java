@@ -84,7 +84,7 @@ public class MoviesService {
     public ResponseEntity<String> deleteMovie(final Long movieId) {
         Optional<Movie> toDelete = moviesRepository.findById(movieId);
         moviesRepository.delete(toDelete.orElseThrow());
-        return new ResponseEntity<>("Pomyślnie usunięto film!", HttpStatus.OK);
+        return new ResponseEntity<>("Pomyślnie usunięto film", HttpStatus.OK);
     }
 
     public List<MovieReviewResponse> getMovieReviews(Long movieId) {
@@ -96,11 +96,11 @@ public class MoviesService {
     public ResponseEntity<String> addReview(AddReviewRequest request) {
 
         if (request.getReviewText() != null && request.getRating() == null) {
-            return new ResponseEntity<>("Nie można dodać recenzji bez oceny!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Nie można dodać recenzji bez oceny", HttpStatus.BAD_REQUEST);
         }
 
         if (request.getRating() < 1 || request.getRating() > 5) {
-            return new ResponseEntity<>("Ocena może być liczbą całkowitą z zakresu [1-5]!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Ocena może być liczbą całkowitą z zakresu [1-5]", HttpStatus.BAD_REQUEST);
         }
 
         Review review = reviewsRepository.findByMovieIdAndUserId(request.getMovieId(), request.getUserId());
@@ -123,12 +123,16 @@ public class MoviesService {
                     .build();
             reviewsRepository.save(newReview);
         }
-        return new ResponseEntity<>("Pomyślnie dodano recenzję!", HttpStatus.OK);
+        return new ResponseEntity<>("Pomyślnie dodano recenzję", HttpStatus.OK);
     }
 
-    public GetRepertoireResponse getRepertoire(GetRepertoireRequest request) {
+    public ResponseEntity<?> getRepertoire(GetRepertoireRequest request) {
         Cinema cinema = cinemasRepository.findByCity(request.getCity());
-        Repertoire repertoire = repertoireRepository.findByCinemaAndDate(cinema, request.getDate());
+        Optional<Repertoire> repertoire = repertoireRepository.findByCinemaAndDate(cinema, request.getDate());
+
+        if (repertoire.isEmpty()) {
+            return new ResponseEntity<>("Brak repertuaru na dany dzień", HttpStatus.NOT_FOUND);
+        }
 
         List<RepertoireItem> items = new ArrayList<>();
 
@@ -136,7 +140,7 @@ public class MoviesService {
         Map<Long, GeneralMovieResponse> idToMovie = new HashMap<>();
         Map<Long, List<ScreeningItem>> screeningToMovie = new HashMap<>();
 
-        for (Screening screening : repertoire.getScreenings()) {
+        for (Screening screening : repertoire.get().getScreenings()) {
             if (screening.getRepertoire().getDate().equals(request.getDate())) {
                 if (!movieIds.contains(screening.getMovie().getId())) {
                     movieIds.add(screening.getMovie().getId());
@@ -167,7 +171,7 @@ public class MoviesService {
             items.add(new RepertoireItem(idToMovie.get(entry.getKey()), entry.getValue()));
         }
 
-        return new GetRepertoireResponse(items);
+        return new ResponseEntity<>(new GetRepertoireResponse(items), HttpStatus.OK);
     }
 
 
@@ -189,24 +193,45 @@ public class MoviesService {
         Movie movie = moviesRepository.findById(request.getMovieId()).orElseThrow();
 
         if (movie.getStatus().equals(Status.ZARCHIWIZOWANY)) {
-            return new ResponseEntity<>("Nie można dodać filmu, który jest zarchiwizowany!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Nie można dodać filmu, który jest zarchiwizowany", HttpStatus.BAD_REQUEST);
         }
 
         Cinema cinema = cinemasRepository.findByCity(request.getCity());
         Screen screen = screensRepository.findByCinemaIdAndScreenName(cinema.getId(), request.getScreenName());
-        Repertoire repertoire = repertoireRepository.findByCinemaAndDate(cinema, request.getDate());
+        Optional<Repertoire> repertoire = repertoireRepository.findByCinemaAndDate(cinema, request.getDate());
 
-        Screening screening = Screening.builder()
-                .screen(screen)
-                .movie(movie)
-                .repertoire(repertoire)
-                .startTime(request.getStartTime())
-                .movieType(request.getMovieType())
-                .movieSoundType(request.getMovieSoundType())
-                .seats(Screening.newSeats())
-                .build();
+        if (repertoire.isEmpty()) {
+            Repertoire newRepertoire = repertoireRepository.save(Repertoire.builder()
+                    .cinema(cinema)
+                    .date(request.getDate())
+                    .build());
 
-        screeningsRepository.save(screening);
+            Screening screening = Screening.builder()
+                    .screen(screen)
+                    .movie(movie)
+                    .repertoire(newRepertoire)
+                    .startTime(request.getStartTime())
+                    .movieType(request.getMovieType())
+                    .movieSoundType(request.getMovieSoundType())
+                    .seats(Screening.newSeats())
+                    .build();
+
+            screeningsRepository.save(screening);
+
+        } else {
+            Screening screening = Screening.builder()
+                    .screen(screen)
+                    .movie(movie)
+                    .repertoire(repertoire.get())
+                    .startTime(request.getStartTime())
+                    .movieType(request.getMovieType())
+                    .movieSoundType(request.getMovieSoundType())
+                    .seats(Screening.newSeats())
+                    .build();
+
+            screeningsRepository.save(screening);
+        }
+
         return null;
     }
 
@@ -217,7 +242,7 @@ public class MoviesService {
                 .cinema(cinema)
                 .date(request.getDate())
                 .build());
-        return new ResponseEntity<>("Pomyślnie dodano repertuar!", HttpStatus.OK);
+        return new ResponseEntity<>("Pomyślnie dodano repertuar", HttpStatus.OK);
     }
 
     public GetUserInfoResponse getUserInfo(Long userId) {
@@ -238,13 +263,13 @@ public class MoviesService {
             Screening screening = screeningsRepository.findById(request.getScreeningId()).orElseThrow();
             String[][] seats = screening.getSeats();
             if (screening.getRepertoire().getDate().isBefore(LocalDate.now())) {
-                return new ResponseEntity<>("Seans już się odbył!", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Seans już się odbył", HttpStatus.BAD_REQUEST);
             }
 
             if (seats[ticket.getSeatRow()][ticket.getSeatNumber()].equals(ZAJETE.name())
                     || seats[ticket.getSeatRow()][ticket.getSeatNumber()].equals(NIE_ISTNIEJE.name())) {
                 return new ResponseEntity<>(
-                        "Miejsce: [" + ticket.getSeatRow() + "][" + ticket.getSeatNumber() + "] zajęte bądź nie istnieje!",
+                        "Miejsce: [" + ticket.getSeatRow() + "][" + ticket.getSeatNumber() + "] zajęte bądź nie istnieje",
                         HttpStatus.BAD_REQUEST);
             }
 
@@ -276,7 +301,7 @@ public class MoviesService {
 
             ticketsRepository.save(ticketEntity);
         }
-        return new ResponseEntity<>("Pomyślnie zakupiono biliety!", HttpStatus.OK);
+        return new ResponseEntity<>("Pomyślnie zakupiono biliety", HttpStatus.OK);
     }
 
     public ResponseEntity<String> archiveMovie(Long movieId) {
@@ -284,14 +309,14 @@ public class MoviesService {
         movie.setStatus(Status.ZARCHIWIZOWANY);
         moviesRepository.save(movie);
 
-        return new ResponseEntity<>("Pomyślnie zarchiwizowano film!", HttpStatus.OK);
+        return new ResponseEntity<>("Pomyślnie zarchiwizowano film", HttpStatus.OK);
     }
 
     public ResponseEntity<?> getReview(Long reviewId) {
         Optional<Review> review = reviewsRepository.findById(reviewId);
 
         if (review.isEmpty()) {
-            return new ResponseEntity<>("Nie znaleziono takiej recenzji!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Nie znaleziono takiej recenzji", HttpStatus.BAD_REQUEST);
         } else {
             return new ResponseEntity<>(MoviesMapper.toMovieReviewResponse(review.get()), HttpStatus.OK);
         }
@@ -300,7 +325,7 @@ public class MoviesService {
     public ResponseEntity<String> editMovie(EditMovieRequest request) {
         Optional<Movie> movie = moviesRepository.findById(request.getMovieId());
         if (movie.isEmpty()) {
-            return new ResponseEntity<>("Film o podanym id nie istnieje!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Film o podanym id nie istnieje", HttpStatus.BAD_REQUEST);
         }
         Movie movieEntity = movie.get();
         movieEntity.setTitle(request.getTitle());

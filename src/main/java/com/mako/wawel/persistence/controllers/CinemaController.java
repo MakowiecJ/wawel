@@ -67,7 +67,7 @@ public class CinemaController {
     }
 
     @GetMapping("/repertoire")
-    public GetRepertoireResponse getRepertoire(
+    public ResponseEntity<?> getRepertoire(
             @RequestParam final City city,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final LocalDate date) {
         return service.getRepertoire(new GetRepertoireRequest(city, date));
