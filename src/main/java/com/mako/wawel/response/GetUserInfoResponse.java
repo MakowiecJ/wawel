@@ -17,7 +17,7 @@ public class GetUserInfoResponse {
     private String username;
     private String email;
     private Set<Role> roles;
-    private List<TicketResponse> tickets;
+    private List<TicketsByScreeningResponse> tickets;
     private List<GeneralMovieResponse> watchedMovies;
     private List<MovieReviewResponse> reviews;
 }

@@ -40,12 +40,6 @@ public class MoviesMapper {
     public static TicketResponse toTicketResponse(final Ticket ticket) {
         return TicketResponse.builder()
                 .id(ticket.getId())
-                .city(ticket.getScreening().getScreen().getCinema().getCity())
-                .date(ticket.getScreening().getRepertoire().getDate())
-                .startTime(ticket.getScreening().getStartTime())
-                .movieTitle(ticket.getScreening().getMovie().getTitle())
-                .movieId(ticket.getScreening().getMovie().getId())
-                .screenName(ticket.getScreening().getScreen().getScreenName())
                 .ticketType(ticket.getTicketType())
                 .seatRow(ticket.getSeatRow())
                 .seatNumber(ticket.getSeatNumber())

@@ -254,11 +254,39 @@ public class MoviesService {
 
     public GetUserInfoResponse getUserInfo(Long userId) {
         User user = usersRepository.findById(userId).orElseThrow();
+        List<TicketsByScreeningResponse> groupedTickets = new ArrayList<>();
+        Map<Long, TicketsByScreeningResponse> screeningIdToGroupedTickets = new HashMap<>();
+        for (Ticket ticket : user.getTickets()) {
+            Long screeningId = ticket.getScreening().getId();
+            if (!screeningIdToGroupedTickets.containsKey(screeningId)) {
+                screeningIdToGroupedTickets.put(screeningId, TicketsByScreeningResponse.builder()
+                        .screeningId(screeningId)
+                        .city(ticket.getScreening().getRepertoire().getCinema().getCity())
+                        .date(ticket.getScreening().getRepertoire().getDate())
+                        .startTime(ticket.getScreening().getStartTime())
+                        .movieTitle(ticket.getScreening().getMovie().getTitle())
+                        .movieId(ticket.getScreening().getMovie().getId())
+                        .screenName(ticket.getScreening().getScreen().getScreenName())
+                        .tickets(List.of(MoviesMapper.toTicketResponse(ticket)))
+                        .build());
+            } else {
+
+                TicketsByScreeningResponse updatedTicket=  new TicketsByScreeningResponse(screeningIdToGroupedTickets.get(screeningId));
+                updatedTicket.addTicket(MoviesMapper.toTicketResponse(ticket));
+
+                screeningIdToGroupedTickets.replace(screeningId, updatedTicket);
+            }
+        }
+
+        for (Map.Entry<Long, TicketsByScreeningResponse> entry : screeningIdToGroupedTickets.entrySet()) {
+            groupedTickets.add(entry.getValue());
+        }
+
         return GetUserInfoResponse.builder()
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .roles(user.getRoles())
-                .tickets(user.getTickets().stream().map(MoviesMapper::toTicketResponse).toList())
+                .tickets(groupedTickets)
                 .reviews(user.getReviews().stream().map(MoviesMapper::toMovieReviewResponse).toList())
                 .watchedMovies(user.getWatchedMovies())
                 .build();
