@@ -31,7 +31,7 @@ public class DataInitializer {
         EditScreeningRequest screening1movie1 = EditScreeningRequest.builder()
                 .screenName(ScreenName.SALA1)
                 .movieId(1L)
-                .startTime(LocalTime.of(8, 0))
+                .startTime(LocalTime.of(10, 0))
                 .movieType(MovieType.D3)
                 .movieSoundType(MovieSoundType.DUBBING)
                 .build();
@@ -39,7 +39,7 @@ public class DataInitializer {
         EditScreeningRequest screening2movie1 = EditScreeningRequest.builder()
                 .screenName(ScreenName.SALA1)
                 .movieId(1L)
-                .startTime(LocalTime.of(12, 0))
+                .startTime(LocalTime.of(14, 0))
                 .movieType(MovieType.D3)
                 .movieSoundType(MovieSoundType.DUBBING)
                 .build();
@@ -47,7 +47,7 @@ public class DataInitializer {
         EditScreeningRequest screening3movie1 = EditScreeningRequest.builder()
                 .screenName(ScreenName.SALA1)
                 .movieId(1L)
-                .startTime(LocalTime.of(16, 0))
+                .startTime(LocalTime.of(18, 0))
                 .movieType(MovieType.D2)
                 .movieSoundType(MovieSoundType.DUBBING)
                 .build();
@@ -55,7 +55,7 @@ public class DataInitializer {
         EditScreeningRequest screening1movie2 = EditScreeningRequest.builder()
                 .screenName(ScreenName.SALA2)
                 .movieId(2L)
-                .startTime(LocalTime.of(9, 0))
+                .startTime(LocalTime.of(11, 0))
                 .movieType(MovieType.D2)
                 .movieSoundType(MovieSoundType.DUBBING)
                 .build();
@@ -95,7 +95,7 @@ public class DataInitializer {
         EditScreeningRequest screening3movie3 = EditScreeningRequest.builder()
                 .screenName(ScreenName.SALA3)
                 .movieId(3L)
-                .startTime(LocalTime.of(20, 0))
+                .startTime(LocalTime.of(21, 0))
                 .movieType(MovieType.D2)
                 .movieSoundType(MovieSoundType.DUBBING)
                 .build();
