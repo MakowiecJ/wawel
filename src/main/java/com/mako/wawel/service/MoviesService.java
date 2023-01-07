@@ -398,4 +398,9 @@ public class MoviesService {
 
         return new ResponseEntity<>("Pomyślnie edytowano seans", HttpStatus.OK);
     }
+
+    public ResponseEntity<String> deleteScreening(Long screeningId) {
+        screeningsRepository.deleteById(screeningId);
+        return new ResponseEntity<>("Pomyślnie usunięto seans", HttpStatus.OK);
+    }
 }

@@ -4,6 +4,7 @@ import com.mako.wawel.common.Status;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class Movie {
     @OneToMany(mappedBy = "movie")
     private List<Review> reviews;
 
-    @OneToMany(mappedBy = "movie")
+    @OneToMany(mappedBy = "movie", fetch = FetchType.EAGER)
     private List<Screening> screenings;
 
     public Double getAverageRating() {
@@ -59,6 +60,7 @@ public class Movie {
         return totalRating / reviews.size();
     }
 
+    @Transactional
     public Status getStatus() {
 
         if (status.equals(Status.ZARCHIWIZOWANY)) {

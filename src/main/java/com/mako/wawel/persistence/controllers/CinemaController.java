@@ -93,6 +93,10 @@ public class CinemaController {
         return service.addScreening(request);
     }
 
+    @DeleteMapping("screening/{screeningId}")
+    public ResponseEntity<String> deleteScreening(@PathVariable final Long screeningId) {
+        return service.deleteScreening(screeningId);
+    }
 
     @GetMapping("/users/{userId}")
     public GetUserInfoResponse getUserInfo(@PathVariable final Long userId) {
