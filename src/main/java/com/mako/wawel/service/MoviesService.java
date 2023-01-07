@@ -1,5 +1,6 @@
 package com.mako.wawel.service;
 
+import com.mako.wawel.common.City;
 import com.mako.wawel.common.Status;
 import com.mako.wawel.entity.auth.User;
 import com.mako.wawel.entity.cinema.Cinema;
@@ -351,22 +352,31 @@ public class MoviesService {
         Optional<Repertoire> repertoire = repertoireRepository.findByCinemaAndDate(cinema, request.getDate());
 
         if (repertoire.isEmpty()) {
-            return new ResponseEntity<>("Brak repertuaru w tym dniu", HttpStatus.NOT_FOUND);
+            addRepertoire(AddRepertoireRequest.of(request.getCity(), request.getDate()));
         }
 
         for (EditScreeningRequest editScreeningRequest : request.getScreenings()) {
-            editScreening(editScreeningRequest);
+            editScreening(editScreeningRequest, request.getCity(), request.getDate());
         }
 
         return new ResponseEntity<>("Pomyślnie edytowano repertuar", HttpStatus.OK);
     }
 
-    public ResponseEntity<?> editScreening(EditScreeningRequest request) {
-        Optional<Screening> screening = screeningsRepository.findById(request.getScreeningId());
+    public ResponseEntity<?> editScreening(final EditScreeningRequest request, final City city, final LocalDate date) {
 
-        if (screening.isEmpty()) {
-            return new ResponseEntity<>("Nie znaleziono takiego seansu", HttpStatus.NOT_FOUND);
+        if (request.getScreeningId() == null || screeningsRepository.findById(request.getScreeningId()).isEmpty()) {
+            addScreening(AddScreeningRequest.builder()
+                    .city(city)
+                    .screenName(request.getScreenName())
+                    .movieId(request.getMovieId())
+                    .date(date)
+                    .startTime(request.getStartTime())
+                    .movieType(request.getMovieType())
+                    .movieSoundType(request.getMovieSoundType())
+                    .build());
+            return new ResponseEntity<>("Pomyślnie dodano seans", HttpStatus.OK);
         }
+        Optional<Screening> screening = screeningsRepository.findById(request.getScreeningId());
 
         Screening screeningEntity = screening.get();
 
