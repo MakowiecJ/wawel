@@ -4,12 +4,14 @@ import com.mako.wawel.common.Availability;
 import com.mako.wawel.common.MovieSoundType;
 import com.mako.wawel.common.MovieType;
 import com.mako.wawel.entity.cinema.Screen;
+import com.mako.wawel.entity.cinema.Ticket;
 import com.mako.wawel.entity.converter.SeatsConverter;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table(name = "screenings")
@@ -49,6 +51,9 @@ public class Screening {
     @Column(name = "movie_sound_type")
     @Enumerated(EnumType.STRING)
     private MovieSoundType movieSoundType;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Ticket> tickets;
 
     public static String[][] newSeats() {
         String[][] seats = new String[12][18];

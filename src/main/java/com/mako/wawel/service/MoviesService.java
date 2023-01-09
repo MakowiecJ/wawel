@@ -85,7 +85,10 @@ public class MoviesService {
 
     public ResponseEntity<String> deleteMovie(final Long movieId) {
         Optional<Movie> toDelete = moviesRepository.findById(movieId);
-        moviesRepository.delete(toDelete.orElseThrow());
+        if (toDelete.isEmpty()) {
+            return new ResponseEntity<>("Nie znaleziono filmu o podanym id", HttpStatus.NOT_FOUND);
+        }
+        moviesRepository.delete(toDelete.get());
         return new ResponseEntity<>("Pomyślnie usunięto film", HttpStatus.OK);
     }
 

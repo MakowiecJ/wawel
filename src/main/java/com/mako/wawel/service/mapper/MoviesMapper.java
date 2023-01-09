@@ -20,6 +20,7 @@ public class MoviesMapper {
                 .duration(movie.getDuration())
                 .status(movie.getStatus())
                 .posterSource(movie.getPosterSource())
+                .bigImageSource(movie.getBigImageSource())
                 .trailerSource(movie.getTrailerSource())
                 .description(movie.getDescription())
                 .averageRating(movie.getAverageRating())

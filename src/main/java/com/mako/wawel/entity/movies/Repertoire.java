@@ -26,7 +26,7 @@ public class Repertoire {
     @Column(name = "date")
     private LocalDate date;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "repertoire_id")
     private List<Screening> screenings;
 
