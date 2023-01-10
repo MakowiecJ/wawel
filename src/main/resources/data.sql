@@ -321,5 +321,10 @@ INSERT INTO tickets (user_id, screening_id, seat_row, seat_number, ticket_type)
 VALUES (2, 1, 0, 8, 'ULGOWY'),
        (2, 2, 2, 8, 'NORMALNY'),
        (2, 1, 0, 9, 'NORMALNY'),
-       (2, 1, 0, 10, 'SENIOR');
+       (2, 1, 0, 10, 'SENIOR'),
+       (3, 2, 4, 8, 'NORMALNY'),
+       (4, 1, 4, 3, 'NORMALNY'),
+       (5, 2, 4, 5, 'NORMALNY'),
+       (6, 1, 2, 8, 'NORMALNY'),
+       (3, 1, 4, 8, 'NORMALNY');
 
