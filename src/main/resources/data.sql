@@ -317,6 +317,7 @@ CREATE TABLE tickets
 
 INSERT INTO tickets (user_id, screening_id, seat_row, seat_number, ticket_type)
 VALUES (2, 1, 0, 8, 'ULGOWY'),
+       (2, 322, 4, 8, 'NORMALNY'),
        (2, 1, 0, 9, 'NORMALNY'),
        (2, 1, 0, 10, 'SENIOR');
 
