@@ -8,6 +8,8 @@ import com.mako.wawel.response.MovieReviewResponse;
 import com.mako.wawel.response.TicketResponse;
 import lombok.experimental.UtilityClass;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 @UtilityClass
@@ -21,8 +23,8 @@ public class MoviesMapper {
                 .minAge(movie.getMinAge())
                 .duration(movie.getDuration())
                 .status(movie.getStatus())
-                .posterSource(Arrays.toString(movie.getPosterSource()))
-                .bigImageSource(Arrays.toString(movie.getBigImageSource()))
+                .posterSource(blobToString(movie.getPosterSource()))
+                .bigImageSource(blobToString(movie.getBigImageSource()))
                 .trailerSource(movie.getTrailerSource())
                 .description(movie.getDescription())
                 .averageRating(movie.getAverageRating())
@@ -54,4 +56,8 @@ public class MoviesMapper {
 //        byte[] bdata = blob.getBytes(1, (int) blob.length());
 //        return new String(bdata);
 //    }
+
+    public static String blobToString(final byte[] blob) {
+        return new String(blob, StandardCharsets.UTF_8);
+    }
 }

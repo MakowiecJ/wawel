@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.sql.rowset.serial.SerialBlob;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -66,7 +67,8 @@ public class MoviesService {
     }
 
     public GeneralMovieResponse getMovie(final Long movieId) {
-        return toMovieResponse(moviesRepository.findById(movieId).orElseThrow());
+        var response = toMovieResponse(moviesRepository.findById(movieId).orElseThrow());
+        return response;
     }
 
     public Movie addMovie(final AddMovieRequest request) {
@@ -75,8 +77,8 @@ public class MoviesService {
                 .genre(request.getGenre())
                 .minAge(request.getMinAge())
                 .duration(request.getDuration())
-                .posterSource(request.getPosterSource().getBytes())
-                .bigImageSource(request.getBigImageSource().getBytes())
+                .posterSource(request.getPosterSource().getBytes(StandardCharsets.UTF_8))
+                .bigImageSource(request.getBigImageSource().getBytes(StandardCharsets.UTF_8))
                 .trailerSource(request.getTrailerSource())
                 .status(Status.BRAK_SEANSU)
                 .description(request.getDescription())
@@ -372,8 +374,8 @@ public class MoviesService {
         movieEntity.setGenre(request.getGenre());
         movieEntity.setMinAge(request.getMinAge());
         movieEntity.setDuration(request.getDuration());
-        movieEntity.setPosterSource(request.getPosterSource().getBytes());
-        movieEntity.setBigImageSource(request.getBigImageSource().getBytes());
+        movieEntity.setPosterSource(request.getPosterSource().getBytes(StandardCharsets.UTF_8));
+        movieEntity.setBigImageSource(request.getBigImageSource().getBytes(StandardCharsets.UTF_8));
         movieEntity.setTrailerSource(request.getTrailerSource());
         movieEntity.setDescription(request.getDescription());
 
