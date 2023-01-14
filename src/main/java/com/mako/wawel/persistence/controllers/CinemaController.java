@@ -113,4 +113,10 @@ public class CinemaController {
         service.archiveMovie(movieId);
         return null;
     }
+
+    @PostMapping("database/initialize")
+    public Void initialize() {
+        service.initialize();
+        return null;
+    }
 }

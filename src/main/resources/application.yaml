@@ -1,17 +1,19 @@
 server:
   port: 8083
 spring:
-  h2:
-    console:
-      enabled: true
-      settings:
-        web-allow-others: true
+#  h2:
+#    console:
+#      enabled: true
+#      settings:
+#        web-allow-others: true
   datasource:
-    url: jdbc:h2:mem:wawel;
-    username: sa
-    password:
-    driverClassName: org.h2.Driver
+    url: jdbc:postgresql://ec2-63-32-248-14.eu-west-1.compute.amazonaws.com:5432/dqsuo8v703vv5
+    username: zkmpqjkauqtvhf
+    password: 5c541444a67f71e799c629dcda13958bfec43d6820820ef874aa605f61345cf1
+    driverClassName: org.postgresql.Driver
+#    hikari:
+#      maximum-pool-size: 5
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
+      dialect: org.hibernate.dialect.PostgreSQLDialect

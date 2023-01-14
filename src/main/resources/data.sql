@@ -1,25 +1,23 @@
 DROP TABLE IF EXISTS roles;
 CREATE TABLE roles
 (
-    id   INTEGER      NOT NULL AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    PRIMARY KEY (id)
+    id   serial not null primary key,
+    name VARCHAR(100) NOT NULL
 );
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE users
 (
-    id       BIGINT PRIMARY KEY AUTO_INCREMENT,
+    id       serial not null primary key,
     username VARCHAR(200) NOT NULL,
     password VARCHAR(200) NOT NULL,
-    email    VARCHAR(200) NOT NULL,
-    PRIMARY KEY (id)
+    email    VARCHAR(200) NOT NULL
 );
 
 DROP TABLE IF EXISTS user_roles;
 CREATE TABLE user_roles
 (
-    user_id INTEGER NOT NULL AUTO_INCREMENT,
+    user_id serial not null primary key,
     role_id INTEGER NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (role_id) REFERENCES roles (id)
@@ -28,7 +26,7 @@ CREATE TABLE user_roles
 DROP TABLE IF EXISTS cinema;
 CREATE TABLE cinema
 (
-    id           BIGINT PRIMARY KEY AUTO_INCREMENT,
+    id           serial not null primary key,
     city         VARCHAR(255) NOT NULL,
     address      VARCHAR(255) NOT NULL,
     phone_number INT          NOT NULL
@@ -44,7 +42,7 @@ VALUES ('KRAKOW', 'ul. Karmelicka 45', 123321643),
 DROP TABLE IF EXISTS repertoire;
 CREATE TABLE repertoire
 (
-    id        BIGINT PRIMARY KEY AUTO_INCREMENT,
+    id        serial not null primary key,
     cinema_id BIGINT NOT NULL,
     date      DATE   NOT NULL,
     FOREIGN KEY (cinema_id) REFERENCES cinema (id)
@@ -189,17 +187,16 @@ VALUES (1, '2023-01-05'),
 DROP TABLE IF EXISTS movies;
 CREATE TABLE movies
 (
-    id               BIGINT PRIMARY KEY AUTO_INCREMENT,
+    id               serial not null primary key,
     title            VARCHAR(200)  NOT NULL,
     genre            VARCHAR(200)  NOT NULL,
     min_age          INTEGER       NOT NULL,
     duration         INTEGER       NOT NULL,
     status           VARCHAR(200)  NOT NULL,
-    poster_source    MEDIUMTEXT,
-    trailer_source   MEDIUMTEXT,
-    big_image_source MEDIUMTEXT,
-    description      VARCHAR(5000) NOT NULL,
-    PRIMARY KEY (id)
+    poster_source    text,
+    trailer_source   text,
+    big_image_source text,
+    description      VARCHAR(5000) NOT NULL
 );
 
 INSERT INTO roles (name)
@@ -235,7 +232,7 @@ Kiedy pewna, bogata rodzina zostaje zakładnikami w Wigilię, przestępcy nie s�
 DROP TABLE IF EXISTS reviews;
 CREATE TABLE reviews
 (
-    id          BIGINT PRIMARY KEY AUTO_INCREMENT,
+    id          serial not null primary key,
     movie_id    BIGINT NOT NULL,
     user_id     BIGINT NOT NULL,
     rating      INT    NOT NULL,
@@ -254,7 +251,7 @@ VALUES (1, 2, 5, 'Great movie!'),
 DROP TABLE IF EXISTS screen;
 CREATE TABLE screen
 (
-    id          BIGINT PRIMARY KEY AUTO_INCREMENT,
+    id          serial not null primary key,
     cinema_id   BIGINT       NOT NULL,
     screen_name VARCHAR(255) NOT NULL,
     capacity    INT          NOT NULL,
@@ -286,7 +283,7 @@ VALUES (1, 'SALA1', 161),
 DROP TABLE IF EXISTS screenings;
 CREATE TABLE screenings
 (
-    id               BIGINT PRIMARY KEY AUTO_INCREMENT,
+    id               serial not null primary key,
     repertoire_id    BIGINT         NOT NULL,
     screen_id        BIGINT         NOT NULL,
     movie_id         BIGINT         NOT NULL,
@@ -308,7 +305,7 @@ VALUES (1, 1, 1, '10:00:00', 'D2', 'DUBBING',
 DROP TABLE IF EXISTS tickets;
 CREATE TABLE tickets
 (
-    id           BIGINT PRIMARY KEY AUTO_INCREMENT,
+    id           serial not null primary key,
     user_id      BIGINT,
     screening_id BIGINT      NOT NULL,
     seat_row     INT         NOT NULL,

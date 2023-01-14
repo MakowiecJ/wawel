@@ -1,7 +1,6 @@
 package com.mako.wawel.service;
 
-import com.mako.wawel.common.City;
-import com.mako.wawel.common.Status;
+import com.mako.wawel.common.*;
 import com.mako.wawel.entity.auth.User;
 import com.mako.wawel.entity.cinema.Cinema;
 import com.mako.wawel.entity.cinema.Screen;
@@ -21,8 +20,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 import static com.mako.wawel.common.Availability.NIE_ISTNIEJE;
@@ -433,5 +432,135 @@ public class MoviesService {
     public ResponseEntity<String> deleteScreening(Long screeningId) {
         screeningsRepository.deleteById(screeningId);
         return new ResponseEntity<>("Pomyślnie usunięto seans", HttpStatus.OK);
+    }
+
+
+    public Void initialize() {
+        EditScreeningRequest screening1movie1 = EditScreeningRequest.builder()
+                .screenName(ScreenName.SALA1)
+                .movieId(1L)
+                .startTime(LocalTime.of(10, 0))
+                .movieType(MovieType.D3)
+                .movieSoundType(MovieSoundType.DUBBING)
+                .build();
+
+        EditScreeningRequest screening2movie1 = EditScreeningRequest.builder()
+                .screenName(ScreenName.SALA1)
+                .movieId(1L)
+                .startTime(LocalTime.of(14, 0))
+                .movieType(MovieType.D3)
+                .movieSoundType(MovieSoundType.DUBBING)
+                .build();
+
+        EditScreeningRequest screening3movie1 = EditScreeningRequest.builder()
+                .screenName(ScreenName.SALA1)
+                .movieId(1L)
+                .startTime(LocalTime.of(18, 0))
+                .movieType(MovieType.D2)
+                .movieSoundType(MovieSoundType.DUBBING)
+                .build();
+
+        EditScreeningRequest screening1movie2 = EditScreeningRequest.builder()
+                .screenName(ScreenName.SALA2)
+                .movieId(2L)
+                .startTime(LocalTime.of(11, 0))
+                .movieType(MovieType.D2)
+                .movieSoundType(MovieSoundType.DUBBING)
+                .build();
+
+        EditScreeningRequest screening2movie2 = EditScreeningRequest.builder()
+                .screenName(ScreenName.SALA2)
+                .movieId(2L)
+                .startTime(LocalTime.of(14, 0))
+                .movieType(MovieType.D2)
+                .movieSoundType(MovieSoundType.DUBBING)
+                .build();
+
+        EditScreeningRequest screening3movie2 = EditScreeningRequest.builder()
+                .screenName(ScreenName.SALA2)
+                .movieId(2L)
+                .startTime(LocalTime.of(20, 0))
+                .movieType(MovieType.D2)
+                .movieSoundType(MovieSoundType.DUBBING)
+                .build();
+
+        EditScreeningRequest screening1movie3 = EditScreeningRequest.builder()
+                .screenName(ScreenName.SALA3)
+                .movieId(3L)
+                .startTime(LocalTime.of(12, 0))
+                .movieType(MovieType.D2)
+                .movieSoundType(MovieSoundType.DUBBING)
+                .build();
+
+        EditScreeningRequest screening2movie3 = EditScreeningRequest.builder()
+                .screenName(ScreenName.SALA3)
+                .movieId(3L)
+                .startTime(LocalTime.of(15, 0))
+                .movieType(MovieType.D2)
+                .movieSoundType(MovieSoundType.DUBBING)
+                .build();
+
+        EditScreeningRequest screening3movie3 = EditScreeningRequest.builder()
+                .screenName(ScreenName.SALA3)
+                .movieId(3L)
+                .startTime(LocalTime.of(21, 0))
+                .movieType(MovieType.D2)
+                .movieSoundType(MovieSoundType.DUBBING)
+                .build();
+
+
+        for (int i = 1; i <= 31; i++) {
+            EditRepertoireRequest editKrakowRepertoireRequest = EditRepertoireRequest.builder()
+                    .city(City.KRAKOW)
+                    .date(LocalDate.of(2023, 1, i))
+                    .screenings(List.of(
+                            screening1movie1, screening2movie1, screening3movie1,
+                            screening1movie2, screening2movie2, screening3movie2,
+                            screening1movie3, screening2movie3, screening3movie3))
+                    .build();
+
+            EditRepertoireRequest editKatowiceRepertoireRequest = EditRepertoireRequest.builder()
+                    .city(City.KATOWICE)
+                    .date(LocalDate.of(2023, 1, i))
+                    .screenings(List.of(
+                            screening1movie1, screening2movie1, screening3movie1,
+                            screening1movie2, screening2movie2, screening3movie2,
+                            screening1movie3, screening2movie3, screening3movie3))
+                    .build();
+
+            EditRepertoireRequest editOpoleRepertoireRequest = EditRepertoireRequest.builder()
+                    .city(City.OPOLE)
+                    .date(LocalDate.of(2023, 1, i))
+                    .screenings(List.of(
+                            screening1movie1, screening2movie1, screening3movie1,
+                            screening1movie2, screening2movie2, screening3movie2,
+                            screening1movie3, screening2movie3, screening3movie3))
+                    .build();
+
+            EditRepertoireRequest editWroclawRepertoireRequest = EditRepertoireRequest.builder()
+                    .city(City.WROCLAW)
+                    .date(LocalDate.of(2023, 1, i))
+                    .screenings(List.of(
+                            screening1movie1, screening2movie1, screening3movie1,
+                            screening1movie2, screening2movie2, screening3movie2,
+                            screening1movie3, screening2movie3, screening3movie3))
+                    .build();
+
+            EditRepertoireRequest editLubanRepertoireRequest = EditRepertoireRequest.builder()
+                    .city(City.LUBAN)
+                    .date(LocalDate.of(2023, 1, i))
+                    .screenings(List.of(
+                            screening1movie1, screening2movie1, screening3movie1,
+                            screening1movie2, screening2movie2, screening3movie2,
+                            screening1movie3, screening2movie3, screening3movie3))
+                    .build();
+
+            editRepertoire(editKrakowRepertoireRequest);
+            editRepertoire(editKatowiceRepertoireRequest);
+            editRepertoire(editOpoleRepertoireRequest);
+            editRepertoire(editWroclawRepertoireRequest);
+            editRepertoire(editLubanRepertoireRequest);
+        }
+        return null;
     }
 }
