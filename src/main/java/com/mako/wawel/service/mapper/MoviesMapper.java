@@ -58,6 +58,7 @@ public class MoviesMapper {
 //    }
 
     public static String blobToString(final byte[] blob) {
+        if (blob == null) return null;
         return new String(blob, StandardCharsets.UTF_8);
     }
 }

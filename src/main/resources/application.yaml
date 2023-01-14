@@ -1,11 +1,7 @@
 server:
   port: 8083
 spring:
-#  h2:
-#    console:
-#      enabled: true
-#      settings:
-#        web-allow-others: true
+
   datasource:
     url: jdbc:postgresql://ec2-63-32-248-14.eu-west-1.compute.amazonaws.com:5432/dqsuo8v703vv5
     username: zkmpqjkauqtvhf
@@ -13,10 +9,6 @@ spring:
     driverClassName: org.postgresql.Driver
     hikari:
       maximum-pool-size: 7
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
-#      dialect: org.hibernate.dialect.PostgreSQLDialect
 
   jpa:
     show-sql: true
