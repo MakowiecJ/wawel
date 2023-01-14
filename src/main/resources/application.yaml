@@ -11,8 +11,8 @@ spring:
     username: zkmpqjkauqtvhf
     password: 5c541444a67f71e799c629dcda13958bfec43d6820820ef874aa605f61345cf1
     driverClassName: org.postgresql.Driver
-#    hikari:
-#      maximum-pool-size: 5
+    hikari:
+      maximum-pool-size: 10
   jpa:
     hibernate:
       ddl-auto: update
