@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.sql.Blob;
+
 @Builder
 @Getter
 @ToString
@@ -25,9 +27,9 @@ public class GeneralMovieResponse {
 
     private Status status;
 
-    private String posterSource;
+    private Blob posterSource;
 
-    private String bigImageSource;
+    private Blob bigImageSource;
 
     private String trailerSource;
 

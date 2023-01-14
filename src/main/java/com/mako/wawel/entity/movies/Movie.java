@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import java.sql.Blob;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -35,10 +36,12 @@ public class Movie {
     private Status status;
 
     @Column(name = "poster_source")
-    private String posterSource;
+    @Lob
+    private Blob posterSource;
 
     @Column(name = "big_image_source")
-    private String bigImageSource;
+    @Lob
+    private Blob bigImageSource;
 
     @Column(name = "trailer_source")
     private String trailerSource;

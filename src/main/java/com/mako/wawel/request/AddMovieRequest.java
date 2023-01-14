@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.sql.Blob;
+
 @Getter
 @ToString
 @AllArgsConstructor
@@ -17,9 +19,9 @@ public class AddMovieRequest {
 
     private int duration;
 
-    private String posterSource;
+    private Blob posterSource;
 
-    private String bigImageSource;
+    private Blob bigImageSource;
 
     private String trailerSource;
 

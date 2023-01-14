@@ -6,13 +6,13 @@ spring:
 #      enabled: true
 #      settings:
 #        web-allow-others: true
-#  datasource:
-#    url: jdbc:postgresql://ec2-63-32-248-14.eu-west-1.compute.amazonaws.com:5432/dqsuo8v703vv5
-#    username: zkmpqjkauqtvhf
-#    password: 5c541444a67f71e799c629dcda13958bfec43d6820820ef874aa605f61345cf1
-#    driverClassName: org.postgresql.Driver
-#    hikari:
-#      maximum-pool-size: 15
+  datasource:
+    url: jdbc:postgresql://ec2-63-32-248-14.eu-west-1.compute.amazonaws.com:5432/dqsuo8v703vv5
+    username: zkmpqjkauqtvhf
+    password: 5c541444a67f71e799c629dcda13958bfec43d6820820ef874aa605f61345cf1
+    driverClassName: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 7
 #  jpa:
 #    hibernate:
 #      ddl-auto: update
@@ -25,9 +25,9 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-  datasource:
-    url: ${DATABASE_URL}
-    driver-class-name: org.postgresql.Driver
-    hikari:
-      maximum-pool-size: 7
+#  datasource:
+#    url: ${DATABASE_URL}
+#    driver-class-name: org.postgresql.Driver
+#    hikari:
+#      maximum-pool-size: 7
 
