@@ -54,6 +54,7 @@ public class MoviesMapper {
     }
 
     public static String blobToString(Blob blob) throws SQLException, IOException {
+        if (blob == null) return null;
         byte[] bdata = blob.getBytes(1, (int) blob.length());
         return new String(bdata);
     }
