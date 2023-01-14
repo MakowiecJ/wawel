@@ -435,7 +435,7 @@ public class MoviesService {
     }
 
 
-    public Void initialize(final int month, final int startDate, final int endDate) {
+    public Void initialize(final int month, final int startDay, final int endDay) {
         EditScreeningRequest screening1movie1 = EditScreeningRequest.builder()
                 .screenName(ScreenName.SALA1)
                 .movieId(1L)
@@ -509,7 +509,7 @@ public class MoviesService {
                 .build();
 
 
-        for (int i = startDate; i <= endDate; i++) {
+        for (int i = startDay; i <= endDay; i++) {
             EditRepertoireRequest editKrakowRepertoireRequest = EditRepertoireRequest.builder()
                     .city(City.KRAKOW)
                     .date(LocalDate.of(2023, month, i))
