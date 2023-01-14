@@ -115,8 +115,8 @@ public class CinemaController {
     }
 
     @PostMapping("database/initialize")
-    public Void initialize() {
-        service.initialize();
+    public Void initialize(@RequestParam final int month, @RequestParam final int startDay, @RequestParam final int endDay) {
+        service.initialize(month, startDay, endDay);
         return null;
     }
 }

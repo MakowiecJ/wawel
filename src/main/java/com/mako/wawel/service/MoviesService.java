@@ -435,7 +435,7 @@ public class MoviesService {
     }
 
 
-    public Void initialize() {
+    public Void initialize(final int month, final int startDate, final int endDate) {
         EditScreeningRequest screening1movie1 = EditScreeningRequest.builder()
                 .screenName(ScreenName.SALA1)
                 .movieId(1L)
@@ -509,10 +509,10 @@ public class MoviesService {
                 .build();
 
 
-        for (int i = 1; i <= 31; i++) {
+        for (int i = startDate; i <= endDate; i++) {
             EditRepertoireRequest editKrakowRepertoireRequest = EditRepertoireRequest.builder()
                     .city(City.KRAKOW)
-                    .date(LocalDate.of(2023, 1, i))
+                    .date(LocalDate.of(2023, month, i))
                     .screenings(List.of(
                             screening1movie1, screening2movie1, screening3movie1,
                             screening1movie2, screening2movie2, screening3movie2,
@@ -521,7 +521,7 @@ public class MoviesService {
 
             EditRepertoireRequest editKatowiceRepertoireRequest = EditRepertoireRequest.builder()
                     .city(City.KATOWICE)
-                    .date(LocalDate.of(2023, 1, i))
+                    .date(LocalDate.of(2023, month, i))
                     .screenings(List.of(
                             screening1movie1, screening2movie1, screening3movie1,
                             screening1movie2, screening2movie2, screening3movie2,
@@ -530,7 +530,7 @@ public class MoviesService {
 
             EditRepertoireRequest editOpoleRepertoireRequest = EditRepertoireRequest.builder()
                     .city(City.OPOLE)
-                    .date(LocalDate.of(2023, 1, i))
+                    .date(LocalDate.of(2023, month, i))
                     .screenings(List.of(
                             screening1movie1, screening2movie1, screening3movie1,
                             screening1movie2, screening2movie2, screening3movie2,
@@ -539,7 +539,7 @@ public class MoviesService {
 
             EditRepertoireRequest editWroclawRepertoireRequest = EditRepertoireRequest.builder()
                     .city(City.WROCLAW)
-                    .date(LocalDate.of(2023, 1, i))
+                    .date(LocalDate.of(2023, month, i))
                     .screenings(List.of(
                             screening1movie1, screening2movie1, screening3movie1,
                             screening1movie2, screening2movie2, screening3movie2,
@@ -548,7 +548,7 @@ public class MoviesService {
 
             EditRepertoireRequest editLubanRepertoireRequest = EditRepertoireRequest.builder()
                     .city(City.LUBAN)
-                    .date(LocalDate.of(2023, 1, i))
+                    .date(LocalDate.of(2023, month, i))
                     .screenings(List.of(
                             screening1movie1, screening2movie1, screening3movie1,
                             screening1movie2, screening2movie2, screening3movie2,
