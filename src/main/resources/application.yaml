@@ -29,4 +29,4 @@ spring:
     url: ${DATABASE_URL}
     driver-class-name: org.postgresql.Driver
     hikari:
-      maximum-pool-size: 15
+      maximum-pool-size: 7
