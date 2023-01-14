@@ -6,11 +6,17 @@ import com.mako.wawel.entity.cinema.Ticket;
 import com.mako.wawel.response.TicketResponse;
 import com.mako.wawel.response.GeneralMovieResponse;
 import com.mako.wawel.response.MovieReviewResponse;
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 
 @UtilityClass
 public class MoviesMapper {
 
+    @SneakyThrows
     public static GeneralMovieResponse toMovieResponse(final Movie movie) {
         return GeneralMovieResponse.builder()
                 .id(movie.getId())
@@ -19,8 +25,8 @@ public class MoviesMapper {
                 .minAge(movie.getMinAge())
                 .duration(movie.getDuration())
                 .status(movie.getStatus())
-                .posterSource(movie.getPosterSource())
-                .bigImageSource(movie.getBigImageSource())
+                .posterSource(blobToString(movie.getPosterSource()))
+                .bigImageSource(blobToString(movie.getBigImageSource()))
                 .trailerSource(movie.getTrailerSource())
                 .description(movie.getDescription())
                 .averageRating(movie.getAverageRating())
@@ -47,4 +53,8 @@ public class MoviesMapper {
                 .build();
     }
 
+    public static String blobToString(Blob blob) throws SQLException, IOException {
+        byte[] bdata = blob.getBytes(1, (int) blob.length());
+        return new String(bdata);
+    }
 }

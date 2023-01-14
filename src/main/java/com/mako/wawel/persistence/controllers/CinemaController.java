@@ -11,6 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class CinemaController {
 
     @PostMapping
 //    @Secured("role_admin")
-    public Movie addMovie(@RequestBody final AddMovieRequest request) {
+    public Movie addMovie(@RequestBody final AddMovieRequest request) throws SQLException {
         return service.addMovie(request);
     }
 

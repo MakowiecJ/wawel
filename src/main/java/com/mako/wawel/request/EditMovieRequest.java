@@ -21,9 +21,9 @@ public class EditMovieRequest {
 
     private int duration;
 
-    private Blob posterSource;
+    private String posterSource;
 
-    private Blob bigImageSource;
+    private String bigImageSource;
 
     private String trailerSource;
 

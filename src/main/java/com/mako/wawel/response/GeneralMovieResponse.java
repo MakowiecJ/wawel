@@ -27,9 +27,9 @@ public class GeneralMovieResponse {
 
     private Status status;
 
-    private Blob posterSource;
+    private String posterSource;
 
-    private Blob bigImageSource;
+    private String bigImageSource;
 
     private String trailerSource;
 

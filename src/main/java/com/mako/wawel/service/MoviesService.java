@@ -15,11 +15,14 @@ import com.mako.wawel.request.*;
 import com.mako.wawel.response.*;
 import com.mako.wawel.service.mapper.MoviesMapper;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.sql.rowset.serial.SerialBlob;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -66,14 +69,14 @@ public class MoviesService {
         return toMovieResponse(moviesRepository.findById(movieId).orElseThrow());
     }
 
-    public Movie addMovie(final AddMovieRequest request) {
+    public Movie addMovie(final AddMovieRequest request) throws SQLException {
         return moviesRepository.save(Movie.builder()
                 .title(request.getTitle())
                 .genre(request.getGenre())
                 .minAge(request.getMinAge())
                 .duration(request.getDuration())
-                .posterSource(request.getPosterSource())
-                .bigImageSource(request.getBigImageSource())
+                .posterSource(new SerialBlob(request.getPosterSource().getBytes()))
+                .bigImageSource(new SerialBlob(request.getBigImageSource().getBytes()))
                 .trailerSource(request.getTrailerSource())
                 .status(Status.BRAK_SEANSU)
                 .description(request.getDescription())
@@ -359,6 +362,7 @@ public class MoviesService {
         }
     }
 
+    @SneakyThrows
     public ResponseEntity<String> editMovie(EditMovieRequest request) {
         Optional<Movie> movie = moviesRepository.findById(request.getMovieId());
         if (movie.isEmpty()) {
@@ -369,8 +373,8 @@ public class MoviesService {
         movieEntity.setGenre(request.getGenre());
         movieEntity.setMinAge(request.getMinAge());
         movieEntity.setDuration(request.getDuration());
-        movieEntity.setPosterSource(request.getPosterSource());
-        movieEntity.setBigImageSource(request.getBigImageSource());
+        movieEntity.setPosterSource(new SerialBlob(request.getPosterSource().getBytes()));
+        movieEntity.setBigImageSource(new SerialBlob(request.getBigImageSource().getBytes()));
         movieEntity.setTrailerSource(request.getTrailerSource());
         movieEntity.setDescription(request.getDescription());
 
