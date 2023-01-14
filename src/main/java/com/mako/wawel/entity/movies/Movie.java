@@ -36,12 +36,10 @@ public class Movie {
     private Status status;
 
     @Column(name = "poster_source")
-    @Lob
-    private Blob posterSource;
+    private byte[] posterSource;
 
     @Column(name = "big_image_source")
-    @Lob
-    private Blob bigImageSource;
+    private byte[] bigImageSource;
 
     @Column(name = "trailer_source")
     private String trailerSource;

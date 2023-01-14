@@ -1,22 +1,18 @@
 package com.mako.wawel.service.mapper;
 
+import com.mako.wawel.entity.cinema.Ticket;
 import com.mako.wawel.entity.movies.Movie;
 import com.mako.wawel.entity.movies.Review;
-import com.mako.wawel.entity.cinema.Ticket;
-import com.mako.wawel.response.TicketResponse;
 import com.mako.wawel.response.GeneralMovieResponse;
 import com.mako.wawel.response.MovieReviewResponse;
-import lombok.SneakyThrows;
+import com.mako.wawel.response.TicketResponse;
 import lombok.experimental.UtilityClass;
 
-import java.io.IOException;
-import java.sql.Blob;
-import java.sql.SQLException;
+import java.util.Arrays;
 
 @UtilityClass
 public class MoviesMapper {
 
-    @SneakyThrows
     public static GeneralMovieResponse toMovieResponse(final Movie movie) {
         return GeneralMovieResponse.builder()
                 .id(movie.getId())
@@ -25,8 +21,8 @@ public class MoviesMapper {
                 .minAge(movie.getMinAge())
                 .duration(movie.getDuration())
                 .status(movie.getStatus())
-                .posterSource(blobToString(movie.getPosterSource()))
-                .bigImageSource(blobToString(movie.getBigImageSource()))
+                .posterSource(Arrays.toString(movie.getPosterSource()))
+                .bigImageSource(Arrays.toString(movie.getBigImageSource()))
                 .trailerSource(movie.getTrailerSource())
                 .description(movie.getDescription())
                 .averageRating(movie.getAverageRating())
@@ -53,9 +49,9 @@ public class MoviesMapper {
                 .build();
     }
 
-    public static String blobToString(Blob blob) throws SQLException, IOException {
-        if (blob == null) return null;
-        byte[] bdata = blob.getBytes(1, (int) blob.length());
-        return new String(bdata);
-    }
+//    public static String blobToString(Blob blob) throws SQLException, IOException {
+//        if (blob == null) return null;
+//        byte[] bdata = blob.getBytes(1, (int) blob.length());
+//        return new String(bdata);
+//    }
 }

@@ -69,14 +69,14 @@ public class MoviesService {
         return toMovieResponse(moviesRepository.findById(movieId).orElseThrow());
     }
 
-    public Movie addMovie(final AddMovieRequest request) throws SQLException {
+    public Movie addMovie(final AddMovieRequest request) {
         return moviesRepository.save(Movie.builder()
                 .title(request.getTitle())
                 .genre(request.getGenre())
                 .minAge(request.getMinAge())
                 .duration(request.getDuration())
-                .posterSource(new SerialBlob(request.getPosterSource().getBytes()))
-                .bigImageSource(new SerialBlob(request.getBigImageSource().getBytes()))
+                .posterSource(request.getPosterSource().getBytes())
+                .bigImageSource(request.getBigImageSource().getBytes())
                 .trailerSource(request.getTrailerSource())
                 .status(Status.BRAK_SEANSU)
                 .description(request.getDescription())
@@ -362,7 +362,6 @@ public class MoviesService {
         }
     }
 
-    @SneakyThrows
     public ResponseEntity<String> editMovie(EditMovieRequest request) {
         Optional<Movie> movie = moviesRepository.findById(request.getMovieId());
         if (movie.isEmpty()) {
@@ -373,8 +372,8 @@ public class MoviesService {
         movieEntity.setGenre(request.getGenre());
         movieEntity.setMinAge(request.getMinAge());
         movieEntity.setDuration(request.getDuration());
-        movieEntity.setPosterSource(new SerialBlob(request.getPosterSource().getBytes()));
-        movieEntity.setBigImageSource(new SerialBlob(request.getBigImageSource().getBytes()));
+        movieEntity.setPosterSource(request.getPosterSource().getBytes());
+        movieEntity.setBigImageSource(request.getBigImageSource().getBytes());
         movieEntity.setTrailerSource(request.getTrailerSource());
         movieEntity.setDescription(request.getDescription());
 
