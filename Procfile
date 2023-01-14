@@ -1,0 +1,1 @@
+web: java -Xmx1g -jar target/myapp.jar
