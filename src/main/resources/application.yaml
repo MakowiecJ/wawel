@@ -13,7 +13,7 @@ spring:
 #    url: ${DATABASE_URL}
 #    driver-class-name: org.postgresql.Driver
 #    hikari:
-#      maximum-pool-size: 7
+#      maximum-pool-size: 15
 
   datasource:
     url: jdbc:postgresql://ec2-63-32-248-14.eu-west-1.compute.amazonaws.com:5432/dqsuo8v703vv5
@@ -21,4 +21,4 @@ spring:
     password: 5c541444a67f71e799c629dcda13958bfec43d6820820ef874aa605f61345cf1
     driverClassName: org.postgresql.Driver
     hikari:
-      maximum-pool-size: 7
+      maximum-pool-size: 15
