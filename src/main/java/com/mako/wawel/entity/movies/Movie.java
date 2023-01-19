@@ -44,10 +44,10 @@ public class Movie {
     @Column(name = "trailer_source")
     private String trailerSource;
 
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "movie")
     private List<Review> reviews;
 
-    @OneToMany(mappedBy = "movie", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "movie", fetch = FetchType.EAGER)
     private List<Screening> screenings;
 
     public Double getAverageRating() {

@@ -23,7 +23,7 @@ public class Ticket {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "screening_id")
     private Screening screening;
 

@@ -9,7 +9,6 @@ import com.mako.wawel.entity.converter.SeatsConverter;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -52,7 +51,7 @@ public class Screening {
     @Enumerated(EnumType.STRING)
     private MovieSoundType movieSoundType;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     private List<Ticket> tickets;
 
     public static String[][] newSeats() {

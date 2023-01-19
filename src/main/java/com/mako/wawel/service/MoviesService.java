@@ -435,7 +435,11 @@ public class MoviesService {
     }
 
     public ResponseEntity<String> deleteScreening(Long screeningId) {
-        screeningsRepository.deleteById(screeningId);
+        Optional<Screening> screening = screeningsRepository.findById(screeningId);
+        if (screening.isEmpty()) {
+            return new ResponseEntity<>("Nie znaleziono seansu o id: " + screeningId, HttpStatus.NOT_FOUND);
+        }
+        screeningsRepository.delete(screening.get());
         return new ResponseEntity<>("Pomyślnie usunięto seans", HttpStatus.OK);
     }
 
